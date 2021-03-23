@@ -1,0 +1,88 @@
+version: "3.8"
+
+volumes:
+  rabbitmq_data:
+
+services:
+  ####################################
+  # RabbitMQ: The messaging broker   
+  ####################################
+  rabbitmq:
+    image: rabbitmq:3-management
+    hostname: itinerary
+    restart: always
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    volumes: 
+      - rabbitmq_data:/var/lib/rabbitmq
+
+  ###################################
+  # Notification Approval: The Notification Approval microservice
+  ###################################
+  notification_approval:
+    build:
+      context: ./
+      dockerfile: notification_approval.Dockerfile
+    image: elginrspx/notification_approval:itinerary
+    restart: always
+    depends_on:
+      - rabbitmq
+    environment:
+      rabbit_host: rabbitmq
+      rabbit_port: 5672
+      PYTHONUNBUFFERED: 1
+
+  ###################################
+  # Itinerary Approval: The Itinerary Approval complex microservice
+  ###################################
+  itinerary_approval:
+    build:
+      context: ./
+      dockerfile: itinerary_approval.Dockerfile
+    image: elginrspx/itinerary_approval:itinerary
+    restart: always
+    depends_on:
+      - rabbitmq
+      - notification_approval
+    environment:
+      rabbit_host: rabbitmq
+      rabbit_port: 5672
+      PYTHONUNBUFFERED: 1
+    ports:
+      - "5100:5100"
+
+  ###################################
+  # Notification Payment: The Notification Payment microservice
+  ###################################
+  notification_payment:
+    build:
+      context: ./
+      dockerfile: notification_payment.Dockerfile
+    image: elginrspx/notification_payment:itinerary
+    restart: always
+    depends_on:
+      - rabbitmq
+    environment:
+      rabbit_host: rabbitmq
+      rabbit_port: 5672
+      PYTHONUNBUFFERED: 1
+
+  ###################################
+  # Purchase Itinerary: The Purchase Itinerary complex microservice
+  ###################################
+  purchase_itinerary:
+    build:
+      context: ./
+      dockerfile: purchase_itinerary.Dockerfile
+    image: elginrspx/purchase_itinerary:itinerary
+    restart: always
+    depends_on:
+      - rabbitmq
+      - notification_payment
+    environment:
+      rabbit_host: rabbitmq
+      rabbit_port: 5672
+      PYTHONUNBUFFERED: 1
+    ports:
+      - "5101:5101"
