@@ -52,7 +52,7 @@ def processDisplayItinerary(itineraryid):
     #openweatherapi
     print('\n-----Invoking openweather api-----')
     openweatherapikey = '6afc1289d7b063832a4e808bfea98ad4'
-    weather_info = invoke_http("http://api.openweathermap.org/data/2.5/weather?q=" + country + "&appid=" + openweatherapikey, method ='GET')
+    weather_info = invoke_http("http://api.openweathermap.org/data/2.5/weather?q=" + country + "&units=metric&appid=" + openweatherapikey, method ='GET')
     print('weather_info:', weather_info)
 
     #newsapi
