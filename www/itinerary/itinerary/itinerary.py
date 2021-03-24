@@ -18,23 +18,25 @@ class Itinerary(db.Model):
     tourtitle = db.Column(db.String(100), nullable=False)
     tourcategory = db.Column(db.String(50), nullable=False)
     country = db.Column(db.String(50), nullable=False)
+    season = db.Column(db.String(10), nullable=False)
     price = db.Column(db.Float(precision=2), nullable=False)
     thumbnail = db.Column(db.String(1000), nullable=False)
     datetimecreated = db.Column(db.String(50), nullable=False)
 
-    def __init__(self, itineraryid, itinerarycreator, tourtitle, tourcategory, country, price, thumbnail, datetimecreated):
+    def __init__(self, itineraryid, itinerarycreator, tourtitle, tourcategory, country, season, price, thumbnail, datetimecreated):
         self.itineraryid = itineraryid
         self.itinerarycreator = itinerarycreator
         self.tourtitle = tourtitle
         self.tourcategory = tourcategory
         self.country = country
+        self.season = season
         self.price = price
         self.thumbnail = thumbnail
         self.datetimecreated = datetimecreated
 
 
     def json(self):
-        return {"itineraryid": self.itineraryid, "itinerarycreator": self.itinerarycreator, "tourtitle": self.tourtitle, "tourcategory": self.tourcategory,  "country": self.country,  "price": self.price,  "thumbnail": self.thumbnail,  "datetimecreated": self.datetimecreated}
+        return {"itineraryid": self.itineraryid, "itinerarycreator": self.itinerarycreator, "tourtitle": self.tourtitle, "tourcategory": self.tourcategory,  "country": self.country, "season": self.season, "price": self.price,  "thumbnail": self.thumbnail,  "datetimecreated": self.datetimecreated}
 
 class ItineraryDetails(db.Model):
     __tablename__ = 'itinerarydetails'
