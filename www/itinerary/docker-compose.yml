@@ -23,7 +23,7 @@ services:
   notification_approval:
     build:
       context: ./
-      dockerfile: notification_approval.Dockerfile
+      dockerfile: ./notification_approval/notification_approval.Dockerfile
     image: elginrspx/notification_approval:itinerary
     restart: always
     depends_on:
@@ -39,7 +39,7 @@ services:
   itinerary_approval:
     build:
       context: ./
-      dockerfile: itinerary_approval.Dockerfile
+      dockerfile: ./itinerary_approval/itinerary_approval.Dockerfile
     image: elginrspx/itinerary_approval:itinerary
     restart: always
     depends_on:
@@ -58,7 +58,7 @@ services:
   notification_payment:
     build:
       context: ./
-      dockerfile: notification_payment.Dockerfile
+      dockerfile: ./notification_payment/notification_payment.Dockerfile
     image: elginrspx/notification_payment:itinerary
     restart: always
     depends_on:
@@ -74,7 +74,7 @@ services:
   purchase_itinerary:
     build:
       context: ./
-      dockerfile: purchase_itinerary.Dockerfile
+      dockerfile: ./purchase_itinerary/purchase_itinerary.Dockerfile
     image: elginrspx/purchase_itinerary:itinerary
     restart: always
     depends_on:
