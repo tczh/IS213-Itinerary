@@ -19,6 +19,7 @@ create table Itinerary(
 create table ItineraryDetails(
     DetailsID int NOT NULL,
     ItineraryID int not null, 
+    daynumber int not null,
     Location varchar(200) not null,  
     Date varchar(50) not null,
     TimeStart varchar(50) not null,
@@ -32,5 +33,11 @@ create table ItineraryDetails(
 insert into Itinerary(ItineraryCreator, TourTitle, TourCategory, Country, Season, Price, Thumbnail, DateTimeCreated, HasApproved)
 values ("yuhao.neo.2019@sis.smu.edu.sg", "Best Korea Trip", "Adventure", "Korea", "Winter", 50.2, "abc.jpg", "2021-03-22 00:00:01", true);
 
-insert into ItineraryDetails(detailsid, itineraryid, location, date, timestart, timeend, activity, description)
-values (1, 1, "Seoul", "2021-03-22", "1000", "1300", "Running", "Having fun");
+insert into ItineraryDetails(detailsid, itineraryid, daynumber, location, date, timestart, timeend, activity, description)
+values (1, 1, 1, "Seoul", "2021-03-22", "1000", "1300", "Running", "Having fun");
+
+insert into ItineraryDetails(detailsid, itineraryid, daynumber, location, date, timestart, timeend, activity, description)
+values (2, 1, 1, "Seoul", "2021-03-22", "1400", "1500", "Running", "Having fun");
+
+insert into ItineraryDetails(detailsid, itineraryid, daynumber, location, date, timestart, timeend, activity, description)
+values (3, 1, 2, "Seoul", "2021-03-22", "1400", "1500", "Running", "Having fun");
