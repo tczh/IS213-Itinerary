@@ -12,20 +12,27 @@ import json
 app = Flask(__name__)
 CORS(app)
 
-@app.route("/itinerary_approval", methods=['POST']) #THIS SECTION IS TO BE DELETED, FOR TESTING PURPOSES ONLY.
+### THIS SECTION IS TO BE DELETED, FOR TESTING PURPOSES ONLY. ###
+@app.route("/itinerary_approval", methods=['POST'])
 def test ():
-	send_itinerary_approval("elgin.rspx@gmail.com") 
+	#ARG[0]: Customer to Send Email to; 
+	#ARG[1]: Customer Name
+	#ARG[2]: Itinerary ID
+	send_itinerary_approval("elgin.rspx@gmail.com", "Elgin Approval", "ID123P") 
 	return {
         "code": 201,
         "status": "Success"
     }
+### END SECTION ###
 
 # Call this function to send a Fire-and-Forget itinerary approval status notification (email) to User 
-def send_itinerary_approval(email):
+def send_itinerary_approval(email, customerName, itemID):
 	print("\nSending Itinerary Approval Notification to:", email)
 
+	message = email + "," + customerName + "," + itemID
+
 	# Send Itinerary Approval Request for Processing, Set Messages to be Persistent
-	rabbitMQSetup.channel.basic_publish(exchange=rabbitMQSetup.exchangename, routing_key="itinerary.approval", body=email, properties=pika.BasicProperties(delivery_mode = 2)) 
+	rabbitMQSetup.channel.basic_publish(exchange=rabbitMQSetup.exchangename, routing_key="itinerary.approval", body=message, properties=pika.BasicProperties(delivery_mode = 2)) 
 	
 # Execute this program if it is run as a main script (not by 'import')
 if __name__ == "__main__":
@@ -38,4 +45,3 @@ if __name__ == "__main__":
     #   -- i.e., it gives permissions to hosts with any IP to access the flask program,
     #   -- as long as the hosts can already reach the machine running the flask program along the network;
     #   -- it doesn't mean to use http://0.0.0.0 to access the flask program.
-

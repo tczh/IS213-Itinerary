@@ -85,4 +85,4 @@ services:
       rabbit_port: 5672
       PYTHONUNBUFFERED: 1
     ports:
-      - "5101:5101"
+      - "5300:5300"
