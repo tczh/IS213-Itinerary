@@ -8,4 +8,4 @@ Review Microservice Port 5011
 
 Itinerary Microservice Port 5010
 
-Itinerary Dispaly Complex Microservice Port 5200
+Itinerary Display Complex Microservice Port 5200
