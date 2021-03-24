@@ -34,19 +34,20 @@ channel.exchange_declare(exchange=exchangename, exchange_type=exchangetype, dura
 queue_name = 'Approval'
 channel.queue_declare(queue=queue_name, durable=True)
 	# 'durable' makes the queue survive broker restarts
-#bind Notification Queue
+#bind Approval Queue
 channel.queue_bind(exchange=exchangename, queue=queue_name, routing_key='itinerary.approval')
 	# bind the queue to the exchange via the key
-	# any routing_key with the word 'itinerary.approve' will be matched
+	# any routing_key with the word 'itinerary.approval' will be matched
 	
 ############   Payment Queue   #############
 #declare Payment Queue
 queue_name = 'Payment'
 channel.queue_declare(queue=queue_name, durable=True)
 	# 'durable' makes the queue survive broker restarts
+#bind Payment Queue
 channel.queue_bind(exchange=exchangename, queue=queue_name, routing_key='itinerary.payment')
 	# bind the queue to the exchange via the key
-	# any routing_key with the word 'itinerary.approve' will be matched
+	# any routing_key with the word 'itinerary.payment' will be matched
 
 """
 This function in this module sets up a connection and a channel to a local AMQP broker,
