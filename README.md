@@ -10,4 +10,4 @@ Review Microservice Port 5011
 
 Itinerary Microservice Port 5010
 
-
+User Microservice Port 5013
