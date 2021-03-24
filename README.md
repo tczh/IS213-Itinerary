@@ -2,10 +2,12 @@
 
 Itinerary Approval Complex Microservice Port 5100
 
-Purchase Itinerary Complex Microservice Port 5101
+Itinerary Display Complex Microservice Port 5200
+
+Purchase Itinerary Complex Microservice Port 5300
 
 Review Microservice Port 5011
 
 Itinerary Microservice Port 5010
 
-Itinerary Display Complex Microservice Port 5200
+
