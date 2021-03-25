@@ -42,7 +42,7 @@ def processDisplayItinerary(itineraryid):
     print('itinerarydetails_info:', itinerarydetails_info)
 
     #get review details
-    print('\n-----Invoking itinerary microservice-----')
+    print('\n-----Invoking review microservice-----')
     review_info = invoke_http("http://localhost:5011/review/" + searchid, method='GET')
     print('review_info:', review_info)
 
