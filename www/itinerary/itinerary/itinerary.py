@@ -121,6 +121,24 @@ def find_specific_itinerarydetails(itineraryid):
         }
     ), 404
 
+@app.route("/itinerary/creator/<string:itinerarycreator>")
+def find_itinerary_by_creator(itinerarycreator):
+    itinerarylist = Itinerary.query.filter_by(itinerarycreator=itinerarycreator).all()
+    if len(itinerarylist):
+        return jsonify(
+            {
+                "code": 200,
+                "data": {
+                    "itinerary": [itinerary.json() for itinerary in itinerarylist]
+                }
+            }
+        )
+    return jsonify(
+        {
+            "code": 404,
+            "message": "Itinerary not found."
+        }
+    ), 404
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5010, debug=True)
