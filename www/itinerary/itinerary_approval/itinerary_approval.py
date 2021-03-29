@@ -18,7 +18,7 @@ def test ():
 	#ARG[0]: Customer to Send Email to; 
 	#ARG[1]: Customer Name
 	#ARG[2]: Itinerary ID
-	send_itinerary_approval("elgin.rspx@gmail.com", "Elgin Approval", "ID123P") 
+	send_itinerary_approval("elgin.rspx@gmail.com", "Elgin Approval", "ID123P")
 	return {
         "code": 201,
         "status": "Success"

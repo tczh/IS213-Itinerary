@@ -18,13 +18,13 @@ services:
       - rabbitmq_data:/var/lib/rabbitmq
 
   ###################################
-  # Notification Approval: The Notification Approval microservice
+  # Notification: The Notification microservice
   ###################################
-  notification_approval:
+  notification:
     build:
       context: ./
-      dockerfile: ./notification_approval/notification_approval.Dockerfile
-    image: elginrspx/notification_approval:itinerary
+      dockerfile: ./notification/notification.Dockerfile
+    image: elginrspx/notification:itinerary
     restart: always
     depends_on:
       - rabbitmq
@@ -44,29 +44,13 @@ services:
     restart: always
     depends_on:
       - rabbitmq
-      - notification_approval
+      - notification
     environment:
       rabbit_host: rabbitmq
       rabbit_port: 5672
       PYTHONUNBUFFERED: 1
     ports:
       - "5100:5100"
-
-  ###################################
-  # Notification Payment: The Notification Payment microservice
-  ###################################
-  notification_payment:
-    build:
-      context: ./
-      dockerfile: ./notification_payment/notification_payment.Dockerfile
-    image: elginrspx/notification_payment:itinerary
-    restart: always
-    depends_on:
-      - rabbitmq
-    environment:
-      rabbit_host: rabbitmq
-      rabbit_port: 5672
-      PYTHONUNBUFFERED: 1
 
   ###################################
   # Purchase Itinerary: The Purchase Itinerary complex microservice
@@ -79,7 +63,7 @@ services:
     restart: always
     depends_on:
       - rabbitmq
-      - notification_payment
+      - notification
     environment:
       rabbit_host: rabbitmq
       rabbit_port: 5672
