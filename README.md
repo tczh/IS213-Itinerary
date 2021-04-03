@@ -18,6 +18,8 @@ Itinerary Display Complex Microservice Port 5200
 
 Purchase Itinerary Complex Microservice Port 5300
 
+Display Purchased Itinerary Port 5400
+
 ##### Card Information For Payment #####
 Country: Singapore (ASIA-PACIFIC)
 Card Type: VISA
