@@ -12,6 +12,7 @@ CREATE TABLE IF NOT EXISTS `cartItems` (
     `cartNo` integer auto_increment NOT NULL,    
     `cartID` integer NOT NULL,
     `itineraryID` integer NOT NULL,
+    `price` decimal(7,2) NOT NULL,
     constraint cartItems_pk primary key (cartNo, cartID),
     constraint cartItems_fk foreign key (cartID) references cart(cartID)
 ) ENGINE=InnoDB DEFAULT CHARSET=UTF8MB4;
@@ -21,9 +22,9 @@ insert into cart (`emailAddr`) values ("yuhao.neo.2019@sis.smu.edu.sg");
 insert into cart (`emailAddr`) values ("yuhaoneo@gmail.com");
 
 /* Create items for first user */
-insert into cartItems (`cartID`, `itineraryID`) values (1, 100);
-insert into cartItems (`cartID`, `itineraryID`) values (1, 200);
+insert into cartItems (`cartID`, `itineraryID`, `price`) values (1, 100,50.1);
+insert into cartItems (`cartID`, `itineraryID`, `price`) values (1, 200,50);
 
 /* Create items for second user */
-insert into cartItems (`cartID`, `itineraryID`) values (2, 300);
-insert into cartItems (`cartID`, `itineraryID`) values (2, 400);
+insert into cartItems (`cartID`, `itineraryID`,`price`) values (2, 300,20);
+insert into cartItems (`cartID`, `itineraryID`,`price`) values (2, 400,100);
