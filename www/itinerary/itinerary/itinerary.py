@@ -47,18 +47,18 @@ class ItineraryDetails(db.Model):
     itineraryid = db.Column(db.Integer, primary_key=True)
     daynumber = db.Column(db.Integer, primary_key=True)
     location = db.Column(db.String(200), nullable=False)
-    date = db.Column(db.String(50), nullable=False)
+    activitynumber = db.Column(db.Integer, nullable=False)
     timestart = db.Column(db.String(50), nullable=False)
     timeend = db.Column(db.String(50), nullable=False)
     activity = db.Column(db.String(50), nullable=False)
     description = db.Column(db.String(500), nullable=False)
 
-    def __init__(self, detailsid, itineraryid, daynumber, location, date, timestart, timeend, activity, description):
+    def __init__(self, detailsid, itineraryid, daynumber, location, activitynumber, timestart, timeend, activity, description):
         self.detailsid = detailsid
         self.itineraryid = itineraryid
         self.daynumber = daynumber
         self.location = location
-        self.date = date
+        self.activitynumber = activitynumber
         self.timestart = timestart
         self.timeend = timeend
         self.activity = activity
@@ -66,7 +66,7 @@ class ItineraryDetails(db.Model):
 
 
     def json(self):
-        return {"detailsid": self.detailsid, "itineraryid": self.itineraryid, "daynumber":self.daynumber, "location": self.location, "date": self.date, "timestart": self.timestart, "timeend": self.timeend, "activity": self.activity,  "description": self.description}
+        return {"detailsid": self.detailsid, "itineraryid": self.itineraryid, "daynumber":self.daynumber, "location": self.location, "activitynumber": self.activitynumber, "timestart": self.timestart, "timeend": self.timeend, "activity": self.activity,  "description": self.description}
 
 
 @app.route("/itinerary")
