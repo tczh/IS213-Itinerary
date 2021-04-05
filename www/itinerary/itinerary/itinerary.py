@@ -1,9 +1,10 @@
 from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
+from os import environ
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root@localhost:3306/itinerary'
+app.config['SQLALCHEMY_DATABASE_URI'] = environ.get('dbURL') or 'mysql+mysqlconnector://root@localhost:3306/itinerary'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
@@ -22,8 +23,9 @@ class Itinerary(db.Model):
     price = db.Column(db.Float(precision=2), nullable=False)
     thumbnail = db.Column(db.String(1000), nullable=False)
     datetimecreated = db.Column(db.String(50), nullable=False)
+    hasapproved = db.Column(db.Boolean, nullable=False)
 
-    def __init__(self, itineraryid, itinerarycreator, tourtitle, tourcategory, country, season, price, thumbnail, datetimecreated):
+    def __init__(self, itineraryid, itinerarycreator, tourtitle, tourcategory, country, season, price, thumbnail, datetimecreated, hasapproved):
         self.itineraryid = itineraryid
         self.itinerarycreator = itinerarycreator
         self.tourtitle = tourtitle
@@ -33,10 +35,11 @@ class Itinerary(db.Model):
         self.price = price
         self.thumbnail = thumbnail
         self.datetimecreated = datetimecreated
+        self.hasapproved = hasapproved
 
 
     def json(self):
-        return {"itineraryid": self.itineraryid, "itinerarycreator": self.itinerarycreator, "tourtitle": self.tourtitle, "tourcategory": self.tourcategory,  "country": self.country, "season": self.season, "price": self.price,  "thumbnail": self.thumbnail,  "datetimecreated": self.datetimecreated}
+        return {"itineraryid": self.itineraryid, "itinerarycreator": self.itinerarycreator, "tourtitle": self.tourtitle, "tourcategory": self.tourcategory,  "country": self.country, "season": self.season, "price": self.price,  "thumbnail": self.thumbnail,  "datetimecreated": self.datetimecreated, "hasapproved": self.hasapproved}
 
 class ItineraryDetails(db.Model):
     __tablename__ = 'itinerarydetails'

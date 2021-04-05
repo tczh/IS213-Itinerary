@@ -34,7 +34,67 @@ services:
       PYTHONUNBUFFERED: 1
 
   ###################################
-  # Itinerary Approval: The Itinerary Approval complex microservice
+  # Itinerary: The Itinerary microservice PORT 5010
+  ###################################
+  itinerary:
+    build:
+      context: ./
+      dockerfile: ./itinerary/itinerary.Dockerfile
+    image: elginrspx/itinerary:itinerary
+    restart: always
+    environment:
+      dbURL: mysql+mysqlconnector://is213@host.docker.internal:3306/itinerary
+      PYTHONUNBUFFERED: 1
+    ports:
+      - "5010:5010"
+
+  ###################################
+  # Review: The Review microservice PORT 5011
+  ###################################
+  review:
+    build:
+      context: ./
+      dockerfile: ./review/review.Dockerfile
+    image: elginrspx/review:itinerary
+    restart: always
+    environment:
+      dbURL: mysql+mysqlconnector://is213@host.docker.internal:3306/review
+      PYTHONUNBUFFERED: 1
+    ports:
+      - "5011:5011"
+
+  ###################################
+  # Cart: The Cart microservice PORT 5015
+  ###################################
+  cart:
+    build:
+      context: ./
+      dockerfile: ./cart/cart.Dockerfile
+    image: elginrspx/cart:itinerary
+    restart: always
+    environment:
+      dbURL: mysql+mysqlconnector://is213@host.docker.internal:3306/cart
+      PYTHONUNBUFFERED: 1
+    ports:
+      - "5015:5015"
+
+  ###################################
+  # Payment: The Payment microservice PORT 5016
+  ###################################
+  payment:
+    build:
+      context: ./
+      dockerfile: ./payment/payment.Dockerfile
+    image: elginrspx/payment:itinerary
+    restart: always
+    environment:
+      dbURL: mysql+mysqlconnector://is213@host.docker.internal:3306/payment
+      PYTHONUNBUFFERED: 1
+    ports:
+      - "5016:5016"
+
+  ###################################
+  # Itinerary Approval: The Itinerary Approval complex microservice PORT 5100
   ###################################
   itinerary_approval:
     build:
@@ -52,8 +112,28 @@ services:
     ports:
       - "5100:5100"
 
+  ###############################################
+  # itinerary_display: The Itinerary Display complex microservice PORT 5200
+  ###############################################
+  itinerary_display:
+    build:
+      context: ./
+      dockerfile: ./itinerary_display/itinerary_display.Dockerfile
+    image: elginrspx/itinerary_display:itinerary
+    restart: always
+    depends_on:
+      - review
+      - itinerary
+    environment:
+        itinerary_URL: http://itinerary:5010/itinerary/
+        itinerary_detail_URL: http://itinerary:5010/itinerary/itinerarydetails/
+        review_URL: http://review:5011/review/ 
+        PYTHONUNBUFFERED: 1
+    ports:
+      - "5200:5200"
+
   ###################################
-  # Purchase Itinerary: The Purchase Itinerary complex microservice
+  # Purchase Itinerary: The Purchase Itinerary complex microservice PORT 5300
   ###################################
   purchase_itinerary:
     build:
@@ -70,3 +150,22 @@ services:
       PYTHONUNBUFFERED: 1
     ports:
       - "5300:5300"
+
+  ###############################################
+  # display_purchased_itinerary: The Display Purchased itinerary complex microservice PORT 5400
+  ###############################################
+  display_purchased_itinerary:
+    build:
+      context: ./
+      dockerfile: ./display_purchased_itinerary/display_purchased_itinerary.Dockerfile
+    image: elginrspx/display_purchased_itinerary:itinerary
+    restart: always
+    depends_on:
+      - payment
+      - itinerary
+    environment:
+        payment_URL: http://payment:5016/payment/user/
+        itinerary_URL: http://itinerary:5010/itinerary/ 
+        PYTHONUNBUFFERED: 1
+    ports:
+      - "5400:5400"
