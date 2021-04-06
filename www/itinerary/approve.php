@@ -31,22 +31,39 @@
                     <br>Time of Creation: {{itinerary['datetimecreated']}}
                     <br><br>
                     <div class='text-right'>
-                        <button type="button" class="btn btn-warning btn-sm">&nbsp Approve &nbsp</button>
+                        <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#approveModal" v-on:click="approveItinerary(itinerary['itineraryid'])">&nbsp Approve &nbsp</button>
                         <a class="btn btn-primary btn-sm" :href="'verifieditinerarypage.php?itineraryid='+itinerary['itineraryid']" role="button">&nbsp View &nbsp</a>
                     </div>
                 </div>
             </div>
             <hr>
         </div>
+		<div class="modal fade" id="approveModal" data-backdrop="static" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="modalHeader">Approve Message</h5>
+					</div>
+					<div class="modal-body">
+						<p id="modalBody">{{message}}</p>
+					</div>
+					<div class="modal-footer">
+						<a class="btn btn-primary" role="button" href="approve.php" id="modalBtn">Close</a>
+					</div>
+				</div>
+			</div>
+		</div>
     </div>
 
     <script>
         get_all_itinerary_URL = "http://localhost:5010/itinerary";
+		approve_itinerary_URL = "http://localhost:5100/itinerary_approval"
         var app = new Vue
         ({
             el: "#app",
             data:{
                 createdarray: [],
+				message: ''
             },
             created: function () {
                 fetch(get_all_itinerary_URL)
@@ -61,7 +78,63 @@
                             }
                         }
                     })
-            }
+            },
+			methods: {
+				approveItinerary: function(itineraryid) {
+					fetch(approve_itinerary_URL,
+                        {
+                            method: "POST",
+                            headers: {
+                                "Content-type": "application/json"
+                            },
+                            body: JSON.stringify(
+                                {
+                                    "itineraryid": itineraryid,
+                                })
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            console.log(data);
+                            result = data;
+                            console.log(result);
+                            // 3 cases
+                            switch (data.code) {
+                                case 201:
+                                    // 201
+                                    this.message = `ItineraryID: `+itineraryid +
+                                        ` has been successfully approved!`;
+                                    break;
+
+                                case 400:
+                                    // 400 
+                                    this.message = "Error: " + data.message;
+                                        ;
+                                    break;
+                                case 500:
+                                    // 500 
+                                    this.message =
+                                        `Approve error:
+                                        Approve Result:
+                                        Error ${result.code}
+
+                                        Error handling:
+                                        ${data.message}`;
+                                    break;
+                                default:
+                                    orderMessage = `Unexpected error: ${data.code}`;
+                                    console.log(`Unknown error code : ${data.code}`);
+                                    break;
+
+                            } // switch
+                        })
+                        .catch(error => {
+                            console.log("Problem in approving. " + error);
+                        })
+
+				}
+
+			}
+
         })
 
     </script>

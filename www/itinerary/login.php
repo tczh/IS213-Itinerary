@@ -1,6 +1,6 @@
 <?php
     session_start();
-    if (isset($_SESSION["emailaddr"])) {
+    if (isset($_SESSION["email"])) {
         header("Location: index.php");
     }
 ?>
@@ -24,6 +24,11 @@
     <!-- Google Sign-In -->
     <script src="https://apis.google.com/js/platform.js" async defer></script>
 
+	<link href="https://fonts.googleapis.com/css?family=Raleway:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.css">
+    <link href="https://fonts.googleapis.com/css?family=Alegreya+Sans:100,100i,300,300i,400,400i,500,500i,700,700i,800,800i,900,900i" rel="stylesheet">
+
     <style>
         * {
                margin: 0;
@@ -32,6 +37,7 @@
         .marginbox {
                width: 50%;
                margin: auto;
+			   margin-top: 50px;
                margin-bottom: 140px;
                min-width: 450px;
         }
@@ -70,97 +76,18 @@
             margin-left: 5px;
         }
 
-        .navbar {
-            opacity: 0.8;
-            position: fixed;
-            top: 0px;
-        }
-
-        .navbar.top {
-            background: transparent;
-        }
-
-        .navbar-nav a:hover {
-            border-bottom: #f0ad4e 2px solid;
-        }
-
-        .nav-item {
-            margin-right: 20px;
-        }
-
-        /* Footer */
-        .footer {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            height: 200px;
-        }
-
-        .footer a {
-            color: #fff;
-        }
-
-        .footer a:hover {
-            color: #f0ad4e;
-        }
-
-        .footer .social > * {
-            margin-left: 15px;
-            margin-right: 15px;
-        }
-
         .bg-dark {
             background: #333;
             color: #fff;
         }
 
+		<?php include("includes/css.txt");?>
     </style>
 </head>
 <body onload='init()'>
+<?php include("includes/header.php");?>
+
 <div class="marginbox">
-<nav id="navbar" class="navbar top fixed-top navbar-dark bg-dark navbar-expand-md">
-        <!-- Navbar content -->
-        <a class="navbar-brand" href="index.php"><span class="text-warning">Tim's</span> Travel Agent
-        <span class="text-warning"><i class="fas fa-globe-americas fa-2x"></i></span><em class="motto">Where your itineraries come to life</em>
-        </a>
-
-        <button class='navbar-toggler' data-toggle ='collapse' data-target='#myMenu'>
-            <span class='navbar-toggler-icon'></span>
-        </button>
-        <div class="collapse navbar-collapse justify-content-end" id="myMenu">
-            <div class='navbar-nav'>
-                <!-- Need to update href links when they are ready-->
-                <a class='nav-item nav-link text-white' href=index.php>Home</a>
-                <a class='nav-item nav-link text-white' href=about.php>About</a>
-                <?php
-                if (!isset($_SESSION["emailaddr"])) {
-                    echo "<a class='nav-item nav-link text-white' href='login.php'>Login</a>";
-                }
-                else {
-                    echo "<a class='nav-item nav-link text-white' href='#'>Profile</a>";
-                }
-                ?>
-
-                <a class='nav-item nav-link text-white' href=#>Cart</a>
-
-                <?php
-                    if (isset($_SESSION["emailaddr"])) {
-                        echo "<a class='nav-item nav-link text-white' href='objects/ProcessLogout.php'>Log Out</a>";
-                    }
-                ?>
-            </div>
-        </div>
-    </nav>
-
-    <h1 id="title">
-        Tim's Travel Agent
-   </h1>
-
-    <p id="slogan">
-        Where your itineraries come to life
-    </p>
 
     <form id="form" action='objects/ProcessLogin.php' method='GET'>
         
@@ -197,15 +124,7 @@
     <p id='create'><a href='signup.php'>Create an account</a></p>
 </div>
 
-    <footer class="footer bg-dark">
-      <div class="social">
-        <a href="#"><i class="fab fa-facebook fa-2x"></i></a>
-        <a href="#"><i class="fab fa-twitter fa-2x"></i></a>
-        <a href="#"><i class="fab fa-youtube fa-2x"></i></a>
-        <a href="https://www.linkedin.com/in/timothy-chia-a23858100/"><i class="fab fa-linkedin fa-2x"></i></a>
-      </div>
-      <p>Copyright &copy; 2020 - Tim's Travel Agent</p>
-    </footer>
+	<?php include("includes/footer.php");?>
 
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>

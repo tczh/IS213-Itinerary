@@ -1,3 +1,18 @@
+<?php
+	session_start();
+	//TO CHANGE
+	if(isset($_SESSION['email'])) {
+		$userid = $_SESSION['email'];
+	} else {
+			// redirect to login page
+		header("Location: index.php");
+
+		// stop all further execution 
+		// (if there are statements below)
+		exit;;
+		}
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -10,6 +25,10 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
     <link href='https://fonts.googleapis.com/css?family=Didact+Gothic' rel='stylesheet' type='text/css'>
+	<link href="https://fonts.googleapis.com/css?family=Raleway:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.css">
+    <link href="https://fonts.googleapis.com/css?family=Alegreya+Sans:100,100i,300,300i,400,400i,500,500i,700,700i,800,800i,900,900i" rel="stylesheet">
 
     <style>
         div.stars{
@@ -45,30 +64,14 @@
             content:'\f006';
             font-family: FontAwesome;
         }
+
+		<?php include("includes/css.txt");?>
     </style>
 </head>
 <body>
-    <?php
-        session_start();
-        // to change
-        $_SESSION['email'] = 'elvis.leong.2019@sis.smu.edu.sg';
-    ?>
+	<?php include("includes/header.php");?>
     <div class = "container" id="app">
         <div class = "row">
-            <?php
-            //TO CHANGE
-            if(isset($_SESSION['email'])) {
-                $userid = $_SESSION['email'];
-            } else {
-                 // redirect to login page
-                header("Location: index.php");
-
-                // stop all further execution 
-                // (if there are statements below)
-                exit;;
-                }
-
-            ?>
             <div class="col-sm-4 text-center">
                 <!--Tabs -->
                 <h5>My Itineraries</h5>
@@ -185,6 +188,8 @@
             </div>
         </div>
     </div>
+	<?php include("includes/footer.php");?>
+	
     <script>
         get_created_info_URL = "http://localhost:5010/itinerary/creator/";
         create_review_URL = "http://localhost:5011/review/insert";

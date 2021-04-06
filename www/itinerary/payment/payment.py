@@ -91,7 +91,7 @@ def create_payment():
 @app.route("/createPaymentIntent", methods=['POST'])
 def createPaymentIntent():
     data = json.loads(request.data)
-    price = int(data["totalPrice"])
+    price = int(round(float(data["totalPrice"]),0))
     # Create a PaymentIntent with the order amount and currency
     intent = stripe.PaymentIntent.create(
         amount=price*100,

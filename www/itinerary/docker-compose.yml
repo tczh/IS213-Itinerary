@@ -135,7 +135,7 @@ services:
       - notification
       - itinerary
     environment:
-      itinerary_URL: http://itinerary:5010/approveitinerary/
+      itineraryapprove_URL: http://itinerary:5010/approveitinerary/
       rabbit_host: rabbitmq
       rabbit_port: 5672
       PYTHONUNBUFFERED: 1

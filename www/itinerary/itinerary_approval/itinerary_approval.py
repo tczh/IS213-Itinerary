@@ -14,11 +14,10 @@ import json
 app = Flask(__name__)
 CORS(app)
 
+itineraryapprove_URL = environ.get('itineraryapprove_URL') or "http://localhost:5010/approveitinerary/"
+
 @app.route("/itinerary_approval", methods=['POST'])
 def approve_itinerary():
-	#ARG[0]: Customer to Send Email to; 
-	#ARG[1]: Customer Name
-	#ARG[2]: Itinerary ID
     if request.is_json:
         try:
             itineraryid = request.get_json()
@@ -26,7 +25,7 @@ def approve_itinerary():
             # do the actual work
             # 1. Send itinerary info {itineraryid}
             result = processUpdateItinerary(itineraryid)
-            send_itinerary_approval("elgin.rspx@gmail.com", "Elgin Approval", "ID123P")
+            send_itinerary_approval(result["data"]["itinerarycreator"], "ID" + str(itineraryid["itineraryid"]))
             return {
                 "code": 201,
                 "status": "Success"
@@ -41,22 +40,21 @@ def approve_itinerary():
     }), 400
 
 # Call this function to send a Fire-and-Forget itinerary approval status notification (email) to User 
-def send_itinerary_approval(email, customerName, itemID):
+def send_itinerary_approval(email, itineraryid):
 	print("\nSending Itinerary Approval Notification to:", email)
-
-	message = email + "," + customerName + "," + itemID
-
+	message = email + "," + itineraryid
+	
 	# Send Itinerary Approval Request for Processing, Set Messages to be Persistent
 	rabbitMQSetup.channel.basic_publish(exchange=rabbitMQSetup.exchangename, routing_key="itinerary.approval", body=message, properties=pika.BasicProperties(delivery_mode = 2)) 
 	
 def processUpdateItinerary(itineraryid):
     print('\n-----Invoking itinerary microservice-----')
     searchid = str(itineraryid['itineraryid'])
-    itinerary_info = invoke_http(itinerary_URL + searchid, method='PUT')
+    itinerary_info = invoke_http(itineraryapprove_URL + searchid, method='PUT')
     return {
         "code": 201,
         "data": {
-            "itinerarycreator": itinerary_info['data']['Itinerarycreator']
+            "itinerarycreator": itinerary_info['data']['itinerarycreator']
         }
     }
 

@@ -16,7 +16,12 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="index.js"></script>
 
-    <title>Welcome To Tim's Travel Agent</title>
+	<link href="https://fonts.googleapis.com/css?family=Raleway:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.css">
+    <link href="https://fonts.googleapis.com/css?family=Alegreya+Sans:100,100i,300,300i,400,400i,500,500i,700,700i,800,800i,900,900i" rel="stylesheet">
+
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
 
     <style>
         * {
@@ -24,7 +29,7 @@
         }
 
         .hero{
-            background-image: url("./images/scenery.jpg");
+            background-image: url("images/scenery.jpg");
             background-repeat: no-repeat;
             background-position: center;
             width: 100%;
@@ -69,50 +74,17 @@
             margin-right: 10px;
         }
 
+		<?php include("includes/css.txt");?>
+
     </style>
     
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
-    <link rel="stylesheet" href="./css/super.css">
+    
 </head>
 <body onload="load()">
+<?php include("includes/header.php");?>
     
     <!-- Navbar collapse if width is sm-->
     <header class="hero">
-    <nav id="navbar" class="navbar top fixed-top navbar-dark bg-dark navbar-expand-md">
-        <!-- Navbar content -->
-        <a class="navbar-brand" href="index.php"><span class="text-warning">Tim's</span> Travel Agent
-        <span class="text-warning"><i class="fas fa-globe-americas fa-2x"></i></span><em class="motto">Where your itineraries come to life</em>
-        </a>
-
-        <button class='navbar-toggler' data-toggle ='collapse' data-target='#myMenu'>
-            <span class='navbar-toggler-icon'></span>
-        </button>
-        <div class="collapse navbar-collapse justify-content-end" id="myMenu">
-            <div class='navbar-nav'>
-                <!-- Need to update href links when they are ready-->
-                <a class='nav-item nav-link text-white' href=index.php>Home</a>
-                <a class='nav-item nav-link text-white' href=about.php>About</a>
-                <?php
-                if (!isset($_SESSION["emailaddr"])) {
-                    echo "<a class='nav-item nav-link text-white' href='login.php'>Login</a>";
-                }
-                else {
-                    echo "<a class='nav-item nav-link text-white' href='#'>Profile</a>";
-                }
-                ?>
-                <a class='nav-item nav-link text-white' href=#>Cart</a>
-
-                <?php
-                    if (isset($_SESSION["emailaddr"])) {
-                        echo "<a class='nav-item nav-link text-white' href='objects/ProcessLogout.php'>Log Out</a>";
-                    }
-                ?>
-
-            </div>
-        </div>
-    </nav>
-
-
     <!--Itinerary search bar-->
     <div class="container-fluid text-center" id="searchBarImage">
         <div class = "row justify-content-center">
@@ -253,18 +225,9 @@
     <div id="nextback">
         <button class="btn btn-warning" id="backbtn" disabled onclick="back()">Back</button>
         <button class="btn btn-warning" id="nextbtn" onclick="next()">Next</button>
-    </div
+    </div>
 
-    <!--Footer-->
-    <footer class="footer bg-dark">
-      <div class="social">
-        <a href="#"><i class="fab fa-facebook fa-2x"></i></a>
-        <a href="#"><i class="fab fa-twitter fa-2x"></i></a>
-        <a href="#"><i class="fab fa-youtube fa-2x"></i></a>
-        <a href="https://www.linkedin.com/in/timothy-chia-a23858100/"><i class="fab fa-linkedin fa-2x"></i></a>
-      </div>
-      <p>Copyright &copy; 2020 - Tim's Travel Agent</p>
-    </footer>
+    <?php include("includes/footer.php");?>
 
     <div id='counter' class='d-none'>0</div>
 
@@ -420,7 +383,7 @@
             str += '<p class="card-text">Price: $' + jsItinerary[i]['price'] + '</p>';
             str += '<p class="card-text">Category: ' + jsItinerary[i]['tourcategory'] + '</p>';
             str += '<p class="card-text">Season: ' + jsItinerary[i]['season'] + '</p>';
-            str += '<a href="#" class="btn btn-warning">View More</a>';
+            str += '<a href="itinerarypage.php?itineraryid=' + jsItinerary[i]["itineraryid"] + '" class="btn btn-warning">View More</a>';
             str += '</div></div>';
             count++
             if(count==3){
@@ -496,7 +459,7 @@
                 str += '<p class="card-text">Price: $' + jsItinerary[i]['price'] + '</p>';
                 str += '<p class="card-text">Category: ' + jsItinerary[i]['tourcategory'] + '</p>';
                 str += '<p class="card-text">Season: ' + jsItinerary[i]['season'] + '</p>';
-                str += '<a href="#" class="btn btn-warning">View More</a>';
+                str += '<a href="itinerarypage.php?itineraryid=' + jsItinerary[i]["itineraryid"] + '" class="btn btn-warning">View More</a>';
                 str += '</div></div>';
                 counts++
                 if(counts== 3){
@@ -573,7 +536,7 @@
                 str += '<p class="card-text">Price: $' + jsItinerary[i]['price'] + '</p>';
                 str += '<p class="card-text">Category: ' + jsItinerary[i]['tourcategory'] + '</p>';
                 str += '<p class="card-text">Season: ' + jsItinerary[i]['season'] + '</p>';
-                str += '<a href="#" class="btn btn-warning">View More</a>';
+                str += '<a href="itinerarypage.php?itineraryid=' + jsItinerary[i]["itineraryid"] + '" class="btn btn-warning">View More</a>';
                 str += '</div></div>';
                 counter++
                 if(counter==3){

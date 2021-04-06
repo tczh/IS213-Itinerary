@@ -31,25 +31,23 @@ def sendNotification(body, statusType):
 	# body is always encoded, therefore decode it to string format
 	message = body.decode().split(",")
 	email = message[0]
-	customerName = message[1]
-	itemID = message[2]
+	itineraryid = message[1]
+	customerName = email.split("@")[0]
 
 	# Create IMG with Customer Details
 	print("Creating IMG with item details...")
 	if (statusType == "Approval"):
-		createdIMG = imageCompose.createApproval(customerName, itemID)
+		createdIMG = imageCompose.createApproval(customerName, itineraryid)
 	else:
 		createdIMG = imageCompose.createPayment(customerName)
-		print("payment created")
-		print(createdIMG)
 	print("IMG Creation Completed")
 
 	# Craft and Send Email
 	print("Sending Email to " + email + "...")
 	if (statusType == "Approval"):
-		gmailCompose.sendEmail(email, itemID, createdIMG, "Approval")
+		gmailCompose.sendEmail(email, itineraryid, createdIMG, "Approval")
 	else:
-		gmailCompose.sendEmail(email, itemID, createdIMG, "Payment")
+		gmailCompose.sendEmail(email, itineraryid, createdIMG, "Payment")
 	print("Email Sent Successfully")
 
 	print() # print a new line feed

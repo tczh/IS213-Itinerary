@@ -16,7 +16,7 @@ import mimetypes
 
 SCOPES = ['https://www.googleapis.com/auth/gmail.compose']
 
-def sendEmail(customer_email, itemID, imgName, statusType):
+def sendEmail(customer_email, itineraryid, imgName, statusType):
 	creds = None
 	# The file token.json stores the user's access and refresh tokens, and is
 	# created automatically when the authorization flow completes for the first
@@ -42,7 +42,7 @@ def sendEmail(customer_email, itemID, imgName, statusType):
 		emailMsg = 'This email is to notify you that your itinerary has been approved!'
 		mimeMessage = MIMEMultipart()
 		mimeMessage['to'] = customer_email
-		mimeMessage['subject'] = itemID + ' - Itinerary Approval Status'
+		mimeMessage['subject'] = itineraryid + ' - Itinerary Approval Status'
 		msg = MIMEText(emailMsg)
 		mimeMessage.attach(msg)
 	elif (statusType == "Payment"):

@@ -215,7 +215,6 @@ function removeActivity(activityNumber) {
 }
 
 function general_data() {
-  var itineraryOwner = "biguang"; //hardcoded data
   var tourTitle = document.getElementById("title").value;
   var tourCategory = document.querySelector('input[name="category"]:checked').value;
   var season = document.querySelector('input[name="season"]:checked').value;

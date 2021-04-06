@@ -1,18 +1,21 @@
 checkoutURL = "http://localhost:5015/allcartitems";
 itineraryURL = "http://localhost:5010/individualitinerary";
 deleteCartURL = "http://localhost:5015/delcart";
-email = "elvis.leong.2019@sis.smu.edu.sg"
-function onLoadData(){
+var email;
 
+function onLoadData(){
+    var queryString = window.location.search;
+    var urlParams = new URLSearchParams(queryString);
+    var emails = urlParams.get("email");
+    console.log(emails);
+    sessionStorage.setItem('email', emails);
     email = sessionStorage.getItem('email');
-    email = "elvis.leong.2019@sis.smu.edu.sg"
+    console.log(email);
     getAll(email);
 }
 
 function getAll(emailAddr){
-    
-    dataSend = JSON.stringify({"emailAddr": "elvisleong.2019@sis.smu.edu.sg" })
-    console.log(dataSend)        
+
     // Change serviceURL to your own
     var request = new XMLHttpRequest();
     request.onreadystatechange = function() {
@@ -86,8 +89,8 @@ function retrieveAllCart(obj){
     var tableHtml = ``;
     var cart = response_json["data"]["cartItems"];
     sessionStorage.setItem("cart",cart);
-    var emails = sessionStorage.setItem('emails', email);
-    var retrieveEmail = sessionStorage.getItem('emails');
+    // var emails = sessionStorage.setItem('emails', email);
+    var retrieveEmail = sessionStorage.getItem('email');
     console.log(retrieveEmail);
     var cartId = response_json["data"]["cartID"];
     var count = 0;
@@ -140,8 +143,10 @@ function retrieveAllCart(obj){
     form.addEventListener("click", function(event) {
 
     var prices = sessionStorage.getItem('prices')
-    var emailAddr = sessionStorage.getItem('emails');
-    processCheckout(prices, emailAddr, cartId);
+    // var emailAddr = sessionStorage.getItem('emails');
+    console.log(email);
+    sessionStorage.setItem("emails", email);
+    processCheckout(prices, email, cartId);
     });
 
 }

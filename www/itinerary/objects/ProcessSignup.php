@@ -72,7 +72,7 @@
         // Close cURL resource
         curl_close($ch);
 
-        header("Location: ../success.html");
+        header("Location: ../success.php");
 
         // $.ajax({
         //     type: 'POST',

@@ -1,4 +1,8 @@
 <!DOCTYPE html>
+<?php
+        session_start();
+        // to change
+?>
 <html lang="en">
 
 <head>
@@ -10,6 +14,10 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
     <link href='https://fonts.googleapis.com/css?family=Didact+Gothic' rel='stylesheet' type='text/css'>
+	<link href="https://fonts.googleapis.com/css?family=Raleway:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.css">
+    <link href="https://fonts.googleapis.com/css?family=Alegreya+Sans:100,100i,300,300i,400,400i,500,500i,700,700i,800,800i,900,900i" rel="stylesheet">
     <style>
         .highlight {
             background: url(https://www.andyhooke.co.uk/wp-content/uploads/2018/02/yellow-brushstroke.png);
@@ -49,26 +57,12 @@
             position:relative;
         }
 
+		<?php include("includes/css.txt");?>
     </style>
 </head>
 
 <body>
-    <?php
-        if (!isset($_GET['itineraryid'])) {
-
-            // redirect to login page
-            header("Location: index.php");
-
-            // stop all further execution 
-            // (if there are statements below)
-            exit;
-        }
-    ?>
-    <?php
-        session_start();
-        // to change
-        $_SESSION['email'] = 'weicheng@gmail.com'
-    ?>
+	<?php include("includes/header.php");?>
 
     <div class="container" id="app">
         <div class='row'>
@@ -217,7 +211,10 @@
                                     </div>
                                     <div class="modal-footer">
                                         <!--TO CHANGE CHECKOUT.HTML-->
-                                        <a type="button" class="btn btn-primary" href='checkout.html'>Checkout</a>
+										<?php 
+										$email=$_SESSION["email"];
+										echo"<a type='button' class='btn btn-primary' href='checkout.html?email=$email'>Checkout</a>";
+										?>
                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                                     </div>
                                 </div>
@@ -265,7 +262,8 @@
             </div>
         </div>
     </div>
-
+	
+	<?php include("includes/footer.php");?>
     <script>
         var get_display_info_URL = "http://localhost:5200/itinerary_display";
         var add_to_cart_URL = "http://localhost:5015/cart/insert";

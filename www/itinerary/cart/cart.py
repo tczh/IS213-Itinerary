@@ -162,13 +162,15 @@ def create_review():
     tourtitle = request.get_json()["tourtitle"]
 
     if (Cart.query.filter_by(emailAddr=emailAddr).first()):
-        if (CartItems.query.filter_by(itineraryID=itineraryID).first()):
+        cartID = Cart.query.filter_by(emailAddr=emailAddr).first().cartID
+        check = CartItems.query.filter_by(cartID=cartID,itineraryID=itineraryID).first()
+        if check:
             return jsonify(
                 {
                     "code": 400,
                     "message": "Itinerary already exists in cart."
                 }
-            ), 400
+            )
     else:
         #cart creation
         cart = Cart(cartID=None, emailAddr=emailAddr)

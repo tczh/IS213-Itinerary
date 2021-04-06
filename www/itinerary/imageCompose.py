@@ -2,28 +2,27 @@ from PIL import Image
 from PIL import ImageFont
 from PIL import ImageDraw
 
-def createApproval(customerName, itemID):
-	img = Image.open("template.jpg")
+def createApproval(customerName, itineraryid):
+	img = Image.open("approvalTemplate.jpg")
 	draw = ImageDraw.Draw(img)
 
 	font = ImageFont.truetype("Helvetica.ttf", 36)
 	# draw.text((x, y),"Sample Text",(r,g,b))
 	# x, y is the top-left coordinate
 	draw.text((200, 560), customerName,(0,0,0), font=font)
-	draw.text((750, 560), itemID,(0,0,0), font=font)
+	draw.text((750, 560), itineraryid,(0,0,0), font=font)
 
 	draw.text((200, 750), 'This email is to notify you that your itinerary has been',(0,0,0), font=font)
 	draw.text((200, 800), 'approved!',(0,0,0), font=font)
 	draw.text((200, 900), 'We hope you have a great day ahead!',(0,0,0), font=font)
+
 	filename = "Approval.jpg"
-
 	img.save(filename)
-
 	return filename
 
 def createReceipt(customerName, amountPaid, datePaid):
-	img1 = Image.open("receiptTemplate.jpg")
-	draw = ImageDraw.Draw(img1)
+	img = Image.open("receiptTemplate.jpg")
+	draw = ImageDraw.Draw(img)
 
 	font = ImageFont.truetype("Helvetica.ttf", 24)
 	titleFont = ImageFont.truetype("Helvetica.ttf", 32)
@@ -39,13 +38,13 @@ def createReceipt(customerName, amountPaid, datePaid):
 	draw.text((125, 700), 'If you have any questions, contact us at',(0,0,0), font=font)
 	draw.text((125, 725), 'enquiries@odyssey.com, or call +65 9762 4351',(0,0,0), font=font)
 	
-	filename1 = "Receipt.jpg"
-	img1.save(filename1)
-	return filename1
+	filename = "Receipt.jpg"
+	img.save(filename)
+	return filename
 
 def createPayment(customerName):
-	img2 = Image.open("paymentConfirmation.jpg")
-	draw = ImageDraw.Draw(img2)
+	img = Image.open("paymentConfirmation.jpg")
+	draw = ImageDraw.Draw(img)
 
 	font = ImageFont.truetype("Helvetica.ttf", 24)
 
@@ -54,6 +53,6 @@ def createPayment(customerName):
 	draw.text((175, 475), 'is successful!',(0,0,0), font=font)
 	draw.text((175, 525), 'We hope you have a great day ahead!',(0,0,0), font=font)
 
-	filename2 = "Payment.jpg"
-	img2.save(filename2)
-	return "abc"
+	filename = "Payment.jpg"
+	img.save(filename)
+	return filename

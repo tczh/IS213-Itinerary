@@ -1,3 +1,27 @@
+<?php
+	session_start();
+?>
+<?php
+	if (!isset($_GET['itineraryid'])) {
+
+		// redirect to login page
+		header("Location: index.php");
+
+		// stop all further execution 
+		// (if there are statements below)
+		exit;
+	}
+?>
+<?php
+	/* TO CHANGE MAYBE */
+	$itineraryid = $_GET['itineraryid'];
+	if(isset($_SESSION['email'])) {
+		$userid = $_SESSION['email'];
+	} else {
+		header("Location: index.php");
+	}
+		
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -10,6 +34,10 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
     <link href='https://fonts.googleapis.com/css?family=Didact+Gothic' rel='stylesheet' type='text/css'>
+	<link href="https://fonts.googleapis.com/css?family=Raleway:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.css">
+    <link href="https://fonts.googleapis.com/css?family=Alegreya+Sans:100,100i,300,300i,400,400i,500,500i,700,700i,800,800i,900,900i" rel="stylesheet">
     <style>
         .highlight {
             background: url(https://www.andyhooke.co.uk/wp-content/uploads/2018/02/yellow-brushstroke.png);
@@ -49,38 +77,19 @@
             position:relative;
         }
 
+		<?php include("includes/css.txt");?>
+
     </style>
 </head>
 
 <body>
-    <?php
-        if (!isset($_GET['itineraryid'])) {
+	
 
-            // redirect to login page
-            header("Location: index.php");
-
-            // stop all further execution 
-            // (if there are statements below)
-            exit;
-        }
-    ?>
-    <?php
-        session_start();
-        $_SESSION['email'] = '1'
-    ?>
+	<?php include("includes/header.php");?>
 
     <div class="container" id="app">
         <div class='row'>
-            <?php
-            /* TO CHANGE MAYBE */
-                $itineraryid = $_GET['itineraryid'];
-                if(isset($_SESSION['email'])) {
-                    $userid = $_SESSION['email'];
-                } else {
-                    $userid = 0;
-                }
-
-            ?>
+            
 
             <div class="col-sm-12 text-center" style="background:white;" v-if="error != 1">
                 <img :src="thumbnail" style="width:100%;height:300px;object-fit:cover;">
@@ -227,6 +236,8 @@
             </div>
         </div>
     </div>
+
+	<?php include("includes/footer.php");?>
 
     <script>
         var get_display_info_URL = "http://localhost:5200/itinerary_display";
