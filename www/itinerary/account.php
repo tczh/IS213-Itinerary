@@ -51,7 +51,7 @@
     <?php
         session_start();
         // to change
-        $_SESSION['email'] = 'yuhao.neo.2019@sis.smu.edu.sg';
+        $_SESSION['email'] = 'elvis.leong.2019@sis.smu.edu.sg';
     ?>
     <div class = "container" id="app">
         <div class = "row">

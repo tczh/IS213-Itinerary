@@ -1,7 +1,7 @@
 version: "3.8"
 
 volumes:
-  rabbitmq_data:
+    rabbitmq_data:
 
 services:
   ####################################
@@ -24,7 +24,7 @@ services:
     build:
       context: ./
       dockerfile: ./notification/notification.Dockerfile
-    image: elginrspx/notification:itinerary
+    image: elginrspx/notification:Odyssey
     restart: always
     depends_on:
       - rabbitmq
@@ -34,13 +34,41 @@ services:
       PYTHONUNBUFFERED: 1
 
   ###################################
+  # Payment: The Payment microservice
+  ###################################
+  payment:
+    build:
+      context: ./
+      dockerfile: ./payment/payment.Dockerfile
+    image: elginrspx/payment:Odyssey
+    restart: always
+    environment:
+      dbURL: mysql+mysqlconnector://is213@host.docker.internal:3306/payment
+      PYTHONUNBUFFERED: 1
+
+  ###################################
+  # User: The User microservice
+  ###################################
+  user:
+    build:
+      context: ./
+      dockerfile: ./user/User.Dockerfile
+    image: elginrspx/user:Odyssey
+    restart: always
+    environment:
+      dbURL: mysql+mysqlconnector://is213@host.docker.internal:3306/user
+      PYTHONUNBUFFERED: 1
+    ports:
+      - "5013:5013"
+
+  ###################################
   # Itinerary: The Itinerary microservice PORT 5010
   ###################################
   itinerary:
     build:
       context: ./
       dockerfile: ./itinerary/itinerary.Dockerfile
-    image: elginrspx/itinerary:itinerary
+    image: elginrspx/itinerary:Odyssey
     restart: always
     environment:
       dbURL: mysql+mysqlconnector://is213@host.docker.internal:3306/itinerary
@@ -55,7 +83,7 @@ services:
     build:
       context: ./
       dockerfile: ./review/review.Dockerfile
-    image: elginrspx/review:itinerary
+    image: elginrspx/review:Odyssey
     restart: always
     environment:
       dbURL: mysql+mysqlconnector://is213@host.docker.internal:3306/review
@@ -70,7 +98,7 @@ services:
     build:
       context: ./
       dockerfile: ./cart/cart.Dockerfile
-    image: elginrspx/cart:itinerary
+    image: elginrspx/cart:Odyssey
     restart: always
     environment:
       dbURL: mysql+mysqlconnector://is213@host.docker.internal:3306/cart
@@ -85,7 +113,7 @@ services:
     build:
       context: ./
       dockerfile: ./payment/payment.Dockerfile
-    image: elginrspx/payment:itinerary
+    image: elginrspx/payment:Odyssey
     restart: always
     environment:
       dbURL: mysql+mysqlconnector://is213@host.docker.internal:3306/payment
@@ -100,12 +128,14 @@ services:
     build:
       context: ./
       dockerfile: ./itinerary_approval/itinerary_approval.Dockerfile
-    image: elginrspx/itinerary_approval:itinerary
+    image: elginrspx/itinerary_approval:Odyssey
     restart: always
     depends_on:
       - rabbitmq
       - notification
+      - itinerary
     environment:
+      itinerary_URL: http://itinerary:5010/approveitinerary/
       rabbit_host: rabbitmq
       rabbit_port: 5672
       PYTHONUNBUFFERED: 1
@@ -113,13 +143,13 @@ services:
       - "5100:5100"
 
   ###############################################
-  # itinerary_display: The Itinerary Display complex microservice PORT 5200
+  # Itinerary Display: The Itinerary Display complex microservice PORT 5200
   ###############################################
   itinerary_display:
     build:
       context: ./
       dockerfile: ./itinerary_display/itinerary_display.Dockerfile
-    image: elginrspx/itinerary_display:itinerary
+    image: elginrspx/itinerary_display:Odyssey
     restart: always
     depends_on:
       - review
@@ -139,7 +169,7 @@ services:
     build:
       context: ./
       dockerfile: ./purchase_itinerary/purchase_itinerary.Dockerfile
-    image: elginrspx/purchase_itinerary:itinerary
+    image: elginrspx/purchase_itinerary:Odyssey
     restart: always
     depends_on:
       - rabbitmq
@@ -147,18 +177,21 @@ services:
     environment:
       rabbit_host: rabbitmq
       rabbit_port: 5672
+      cart_URL: http://cart:5015/cart
+      payment_URL: http://payment:5016/payment
+      paymentIntent_URL: http://payment:5016/createPaymentIntent
       PYTHONUNBUFFERED: 1
     ports:
       - "5300:5300"
 
   ###############################################
-  # display_purchased_itinerary: The Display Purchased itinerary complex microservice PORT 5400
+  # Display Purchased Itinerary: The Display Purchased itinerary complex microservice PORT 5400
   ###############################################
   display_purchased_itinerary:
     build:
       context: ./
       dockerfile: ./display_purchased_itinerary/display_purchased_itinerary.Dockerfile
-    image: elginrspx/display_purchased_itinerary:itinerary
+    image: elginrspx/display_purchased_itinerary:Odyssey
     restart: always
     depends_on:
       - payment

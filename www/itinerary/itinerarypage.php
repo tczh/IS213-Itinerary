@@ -19,7 +19,7 @@
         }
 
         .highlight2 {
-            background: url("./images/brush-stroke-banner-3.png");
+            background: url("brush-stroke-banner-3.png");
             background-repeat: no-repeat;
             background-position: center;
             background-size: 90% auto;
@@ -67,7 +67,7 @@
     <?php
         session_start();
         // to change
-        $_SESSION['email'] = 'wcng.2019@sis.smu.edu.sg'
+        $_SESSION['email'] = 'weicheng@gmail.com'
     ?>
 
     <div class="container" id="app">
@@ -406,7 +406,8 @@
                                 {
                                     "emailaddr": this.userid,
                                     "itineraryid": this.itineraryid,
-                                    "price": this.price
+                                    "price": this.price,
+                                    "tourtitle": this.tourtitle
                                 })
                         })
                         .then(response => response.json())

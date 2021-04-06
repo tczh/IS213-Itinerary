@@ -1,62 +1,87 @@
 // A reference to Stripe.js
-var apiKey = 'pk_test_51IY8rSKA7uVreypXmCCcFfkC5jLtkNmHOqi1pqBhLVET7XuOCaeA1P4H1sehvk28D5J7XrHoXclkp8k5ZOUz9gBT00lcZUHboS';
-var stripe;
-
-var cartData = {
-    totalPrice: $_POST[price],
-    key: apiKey,
-    currency: "sgd"
-};
-
-var secondData = {
-    paymentID: $_POST[paymentId],
-    emailAddr: "yuhao97@live.com", //document.getElementById("email").innerText;
-    fullName: "Neo Yu Hao" // If there would be welcome, .
-};
-
-
-//document.getElementById("quantity").innerText = $_POST[quantity];
-//document.getElementById("price").innerText = $_POST[totalPrice]
-$(async() => {           
-    // Change serviceURL to your own
-    var serviceURL = "http://localhost:5300/purchase_itinerary/purchase";
+function retrieveLoad(){
     
-    try {
-        const response =
-            await fetch(
-                serviceURL, { 
-                    method: 'POST',
-                    headers: {"Content-Type": "application/json"},
-                    body: JSON.stringify(cartData) 
-                }
-            );
-            const result = await response.json();
-            var paymentObject = setupElements(result.paymentIntent);
-            
-            // Handle form submission.
-            var form = document.getElementById("submit");
-            form.addEventListener("click", function(event) {
-                event.preventDefault();
-                // Initiate payment when the submit button is clicked
-                pay(paymentObject["stripe"], paymentObject["card"], paymentObject["clientSecret"]);  
-                updateDatabase();       
+    var apiKey = 'pk_test_51IY8rSKA7uVreypXmCCcFfkC5jLtkNmHOqi1pqBhLVET7XuOCaeA1P4H1sehvk28D5J7XrHoXclkp8k5ZOUz9gBT00lcZUHboS';
+    var stripe;
+
+    var cartData = {
+        totalPrice: sessionStorage.getItem("totalPrice"), //50
+        key: apiKey,
+        currency: "sgd"
+    };
+    var results = sessionStorage.getItem("quantity");
+    console.log(results);
+    document.getElementById("quantity").innerText = results;
+    document.getElementById("price").innerText = sessionStorage.getItem("totalPrice");
+
+    $(async() => {           
+        // Change serviceURL to your own
+        var serviceURL = "http://localhost:5300/purchase_itinerary/purchase";
+        
+        try {
+            const response =
+                await fetch(
+                    serviceURL, { 
+                        method: 'POST',
+                        headers: {"Content-Type": "application/json"},
+                        body: JSON.stringify(cartData) 
+                    }
+                );
+                const result = await response.json();
+                var paymentObject = setupElements(result.paymentIntent);
+                
+                // Handle form submission.
+                var form = document.getElementById("submit");
+                form.addEventListener("click", function(event) {
+                    event.preventDefault();
+                    var inputValue = document.getElementById("email").value;
+                    if (inputValue.includes("@")) {
+                        event.preventDefault();
+                        // Initiate payment when the submit button is clicked
+                        pay(paymentObject["stripe"], paymentObject["card"], paymentObject["clientSecret"]);  
+                        updateDatabase();
+                    } else {
+                        document.getElementById("modalHeader").innerText = "Invalid Email!";
+                        document.getElementById("modalBody").innerText = "Please ensure you have entered a valid email.";
+                        document.getElementById("modalBtn").innerText = "Close";
+                        document.getElementById("modalBtn").addEventListener("click", function(event){
+                            $('#paymentModal').modal('hide');
+                            });
+                            $('#paymentModal').modal('show');
+                        }      
+                });
+            } catch (error) {
+            // Errors when calling the service; such as network error, 
+            // service offline, etc
+            console.log("Cannot connect!");
+            } // error
         });
-    } catch (error) {
-        // Errors when calling the service; such as network error, 
-        // service offline, etc
-        console.log("Cannot connect!");
-    } // error
-});
+}
 
 function updateDatabase() {          
     paymentURL = "http://localhost:5300/purchase_itinerary/update";
+    var billingEmail = document.getElementById("email").value;
+    var billingName = document.getElementById("name").value;
+    var splitArr = sessionStorage.getItem("emails").split("@");
+    var secondData = {
+        cartID: sessionStorage.getItem("cartId"), //1,
+        paymentID: sessionStorage.getItem("paymentId"), //1,
+        emailAddr: sessionStorage.getItem("emails"), //"yuhao97@live.com"
+        fullName: splitArr[0], //"neo yu hao",
+        billingEmail: billingEmail,
+        billingName: billingName
+    };
 
     var request = new XMLHttpRequest();
     request.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
             var data = JSON.parse(this.responseText);
-            console.log(data["code"])
+
             if (data["code"] == "201") {
+                document.getElementById("modalHeader").innerText = "Payment Success!";
+                document.getElementById("modalBody").innerText = "Your payment receipt and payment confirmation has been sent to your email.";
+                document.getElementById("modalBtn").innerText = "Back to Home";
+                document.getElementById("modalBtn").setAttribute("href", "index.php")
                 $('#paymentModal').modal('show');
             }
         }

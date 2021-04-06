@@ -1,13 +1,11 @@
 <?php
-    require_once 'common.php';
-
-    $username = '';
-    if (isset($_SESSION["email"])) {
+    // if (isset($_SESSION["email"])) {
         //$username = $_SESSION["email"];
-        $_SESSION["email"] = "yuhao.neo.2019@sis.smu.edu.sg";
-    } else {
-        header("Location: home.php");
-    }
+    session_start();
+    $_SESSION["email"] = "yuhao.neo.2019@sis.smu.edu.sg";
+    // } else {
+    //     header("Location: home.php");
+    // }
 ?>
 
 <html lang="en">
@@ -20,8 +18,8 @@
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" integrity="sha256-h20CPZ0QyXlBuAw7A+KluUYx/3pK+c7lYEpqLTlxjYQ=" crossorigin="anonymous">
         <link rel="stylesheet" href="./css/create_itinerary.css">
-        <link rel="stylesheet" href="css/normalize.css"/>
-        <link rel="stylesheet" href="css/global.css"/>
+        <link rel="stylesheet" href="./css/normalize.css"/>
+        <link rel="stylesheet" href="./css/global.css"/>
 
         <script src="https://js.stripe.com/v3/"></script>
         <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
@@ -94,7 +92,7 @@
         </style>
     </head>
 
-    <body style="background-color: rgb(233, 233, 233);" id="body_class">
+    <body style="background-color: rgb(233, 233, 233);" id="body_class" onload="retrieveLoad()">
         <nav id="navbar" class="navbar top fixed-top navbar-dark bg-dark navbar-expand-lg">
             <!-- Navbar content -->
             <a class="navbar-brand" href="index.php">
@@ -166,7 +164,8 @@
                     <div class="col ">
                         Itinerary purchased
                     </div>
-                    <div class="col text-center" id="quantity">
+                    <div class="col text-center">
+                        <p id="quantity"></p>
                     </div>
                 </div>
         
@@ -206,17 +205,17 @@
                 <button type="submit" id="submit" class="btn btn-primary w-auto" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Submit</button>
                 
                 <!-- Modal -->
-                <div class="modal fade" id="paymentModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal fade" id="paymentModal" data-backdrop="static" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title" id="staticBackdropLabel">Payment Success!</h5>
+                                <h5 class="modal-title" id="modalHeader"></h5>
                             </div>
                             <div class="modal-body">
-                                <p>Your payment receipt and payment confirmation has been sent to your email!</p>
+                                <p id="modalBody"></p>
                             </div>
                             <div class="modal-footer">
-                                <a class="btn btn-primary" href="index.php" role="button">Back to Home</a>
+                                <a class="btn btn-primary" role="button" id="modalBtn"></a>
                             </div>
                         </div>
                     </div>

@@ -7,7 +7,7 @@ import os, sys
 # Import Settings from RabbitMQ
 import rabbitMQSetup
 
-import imgCompose
+import imageCompose
 import gmailCompose
 
 def receiveMessages():
@@ -37,9 +37,11 @@ def sendNotification(body, statusType):
 	# Create IMG with Customer Details
 	print("Creating IMG with item details...")
 	if (statusType == "Approval"):
-		createdIMG = imgCompose.createIMG(customerName, itemID, "Approval")
+		createdIMG = imageCompose.createApproval(customerName, itemID)
 	else:
-		createdIMG = imgCompose.createIMG(customerName, itemID, "Payment")
+		createdIMG = imageCompose.createPayment(customerName)
+		print("payment created")
+		print(createdIMG)
 	print("IMG Creation Completed")
 
 	# Craft and Send Email
@@ -47,14 +49,10 @@ def sendNotification(body, statusType):
 	if (statusType == "Approval"):
 		gmailCompose.sendEmail(email, itemID, createdIMG, "Approval")
 	else:
-		gmailCompose.sendEmail(email, itemID, createdIMG, "Payment")	
+		gmailCompose.sendEmail(email, itemID, createdIMG, "Payment")
 	print("Email Sent Successfully")
 
 	print() # print a new line feed
-
-
-
-
 
 if __name__ == "__main__":  # execute this program only if it is run as a script (not by 'import')
 	print("\nThis is " + os.path.basename(__file__), end='')

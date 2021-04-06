@@ -7,9 +7,9 @@ from sqlalchemy.sql import expression
 from datetime import datetime
 import json
 from os import environ
+import stripe
 
-
-
+stripe.api_key = "sk_test_51IY8rSKA7uVreypX3jBpmxZaxWMfkYujClys1oEHmVL5YePUPf4STe3DsrwoqUNJJ9ChEsFbLE81nVuURPt0WQXC00L97q1rWq"
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = environ.get('dbURL') or 'mysql+mysqlconnector://root@localhost:3306/payment'
@@ -88,7 +88,60 @@ def create_payment():
         }
     ), 201
 
+@app.route("/createPaymentIntent", methods=['POST'])
+def createPaymentIntent():
+    data = json.loads(request.data)
+    price = int(data["totalPrice"])
+    # Create a PaymentIntent with the order amount and currency
+    intent = stripe.PaymentIntent.create(
+        amount=price*100,
+        currency=data['currency'],
+    )
 
+    try:
+        # Send publishable key and PaymentIntent details to client
+        return jsonify({'publishableKey': data['key'], 'clientSecret': intent.client_secret})
+    except Exception as e:
+        return jsonify(error=str(e)), 403
+
+@app.route("/payment", methods=['PUT'])
+def update_payment():
+    try:
+        data = request.get_json()
+        paymentID = data["paymentID"]
+        payment = Payment.query.filter_by(paymentID=paymentID).first()
+        if not payment:
+            return jsonify(
+                {
+                    "code": 404,
+                    "data": {
+                        "paymentID": paymentID
+                    },
+                    "message": "Payment not found."
+                }
+            ), 404
+
+        # update payment
+        payment.isPaid = 'True'
+        db.session.commit()
+
+        return jsonify(
+            {
+                "code": 200,
+                "data": payment.json()
+            }
+        ), 200
+
+    except Exception as e:
+        return jsonify(
+            {
+                "code": 500,
+                "data": {
+                    "paymentID": paymentID
+                },
+                "message": "An error occurred while updating the payment. " + str(e)
+            }
+        ), 500
 
 @app.route("/payment/user/<string:emailaddr>")
 def find_payment_by_email(emailaddr):
@@ -108,6 +161,7 @@ def find_payment_by_email(emailaddr):
             "message": "Payment Details not found."
         }
     ), 404
+
 
 if __name__ == '__main__':
     print("This is flask for " + os.path.basename(__file__) + ": manage payment ...")

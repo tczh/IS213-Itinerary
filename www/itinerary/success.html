@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" integrity="sha256-h20CPZ0QyXlBuAw7A+KluUYx/3pK+c7lYEpqLTlxjYQ=" crossorigin="anonymous"/>
+
+    <style>
+        * {
+               margin: 0;
+               /* padding-top: 50px; */
+        }
+
+        .marginbox {
+               width: 50%;
+               margin: auto;
+               margin-bottom: 10px;
+               /* margin-bottom: 100px; */
+               min-width: 450px;
+        }
+
+        #title {
+            text-align: center;
+            margin-top: 100px;
+        }
+        
+        #slogan {
+            text-align: center;
+        }
+
+
+        h1 {
+            margin-top: 100px;
+            text-align: center;
+        }
+        #box p {
+            margin-top: 80px;
+            text-align: center;
+            margin-bottom: 100px;
+        }
+
+        #box {
+            border: 1px solid black;
+            padding: 50px;
+        }
+
+        .motto {
+            font-style: italic;
+            font-size: 15px;
+            margin-left: 5px;
+        }
+
+        .navbar {
+            /* background-color: #333; */
+            /* color: white; */
+            /* display: flex; */
+            /* top: 0px; */
+            opacity: 0.8;
+            position: fixed;
+            top: 0px;
+        }
+
+        .navbar-nav {
+            /* color: white; */
+            /* padding: 5px; */
+            /* border: 5px; */
+            /* margin: 10px; */
+            /* opacity: 1; */
+            /* font-weight: 400; */
+        }
+
+        .navbar.top {
+            background: transparent;
+        }
+
+        .navbar-nav a:hover {
+            border-bottom: #f0ad4e 2px solid;
+        }
+
+        .nav-item {
+            margin-right: 20px;
+        }
+
+        /* Footer */
+        .footer {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            height: 200px;
+        }
+
+        .footer a {
+            color: #fff;
+        }
+
+        .footer a:hover {
+            color: #f0ad4e;
+        }
+
+        .footer .social > * {
+            margin-left: 15px;
+            margin-right: 15px;
+        }
+
+        .bg-dark {
+            background: #333;
+            color: #fff;
+        }
+
+    </style>
+
+    <title>Account Creation Success</title>
+</head>
+<body>
+    <div class="marginbox">
+    
+    <nav id="navbar" class="navbar top fixed-top navbar-dark bg-dark navbar-expand-md">
+        <!-- Navbar content -->
+        <a class="navbar-brand" href="index.php"><span class="text-warning">Tim's</span> Travel Agent
+        <span class="text-warning"><i class="fas fa-globe-americas fa-2x"></i></span><em class="motto">Where your itineraries come to life</em>
+        </a>
+
+        <button class='navbar-toggler' data-toggle ='collapse' data-target='#myMenu'>
+            <span class='navbar-toggler-icon'></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-end" id="myMenu">
+            <div class='navbar-nav'>
+                <!-- Need to update href links when they are ready-->
+                <a class='nav-item nav-link text-white' href=index.php>Home</a>
+                <a class='nav-item nav-link text-white' href=about.php>About</a>
+                <a class='nav-item nav-link text-white' href='login.php'>Login</a>
+                <a class='nav-item nav-link text-white' href=#>Cart</a>
+
+            </div>
+        </div>
+    </nav>
+
+    <h1 id="title">
+        Tim's Travel Agent
+   </h1>
+
+    <p id="slogan">
+        Where your itineraries come to life
+    </p>
+
+    <div id="box">
+        <h1>Account Successfully Created!</h1>
+        <p>Click <a href="login.php">here</a> to log in</p>
+    </div>
+</div>
+
+    <footer class="footer bg-dark">
+        <div class="social">
+          <a href="#"><i class="fab fa-facebook fa-2x"></i></a>
+          <a href="#"><i class="fab fa-twitter fa-2x"></i></a>
+          <a href="#"><i class="fab fa-youtube fa-2x"></i></a>
+          <a href="https://www.linkedin.com/in/timothy-chia-a23858100/"><i class="fab fa-linkedin fa-2x"></i></a>
+        </div>
+        <p>Copyright &copy; 2020 - Tim's Travel Agent</p>
+    </footer>
+
+</body>
+</html>

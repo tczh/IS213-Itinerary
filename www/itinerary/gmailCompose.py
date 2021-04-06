@@ -45,11 +45,18 @@ def sendEmail(customer_email, itemID, imgName, statusType):
 		mimeMessage['subject'] = itemID + ' - Itinerary Approval Status'
 		msg = MIMEText(emailMsg)
 		mimeMessage.attach(msg)
-	else:
+	elif (statusType == "Payment"):
 		emailMsg = 'This email is to notify you that your itinerary payment is successful!'
 		mimeMessage = MIMEMultipart()
 		mimeMessage['to'] = customer_email
-		mimeMessage['subject'] = itemID + ' - Itinerary Payment Status'
+		mimeMessage['subject'] = 'Itinerary Payment Status'
+		msg = MIMEText(emailMsg)
+		mimeMessage.attach(msg)
+	else: 
+		emailMsg = 'This email contains an attached file of your payment receipt!'
+		mimeMessage = MIMEMultipart()
+		mimeMessage['to'] = customer_email
+		mimeMessage['subject'] = 'Payment Receipt'
 		msg = MIMEText(emailMsg)
 		mimeMessage.attach(msg)
 

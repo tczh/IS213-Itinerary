@@ -1,7 +1,9 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
+from invokes import invoke_http
 
 import os, sys
+from os import environ
 
 import requests
 
@@ -12,18 +14,31 @@ import json
 app = Flask(__name__)
 CORS(app)
 
-### THIS SECTION IS TO BE DELETED, FOR TESTING PURPOSES ONLY. ###
 @app.route("/itinerary_approval", methods=['POST'])
-def test ():
+def approve_itinerary():
 	#ARG[0]: Customer to Send Email to; 
 	#ARG[1]: Customer Name
 	#ARG[2]: Itinerary ID
-	send_itinerary_approval("elgin.rspx@gmail.com", "Elgin Approval", "ID123P")
-	return {
-        "code": 201,
-        "status": "Success"
-    }
-### END SECTION ###
+    if request.is_json:
+        try:
+            itineraryid = request.get_json()
+            print("\nReceived an order in JSON:", itineraryid)
+            # do the actual work
+            # 1. Send itinerary info {itineraryid}
+            result = processUpdateItinerary(itineraryid)
+            send_itinerary_approval("elgin.rspx@gmail.com", "Elgin Approval", "ID123P")
+            return {
+                "code": 201,
+                "status": "Success"
+            }
+            # return jsonify(result), result["code"]
+        except Exception as e:
+            pass  # do nothing.
+    # if reached here, not a JSON request.
+    return jsonify({
+        "code": 400,
+        "message": "Invalid JSON input: " + str(request.get_data())
+    }), 400
 
 # Call this function to send a Fire-and-Forget itinerary approval status notification (email) to User 
 def send_itinerary_approval(email, customerName, itemID):
@@ -34,6 +49,17 @@ def send_itinerary_approval(email, customerName, itemID):
 	# Send Itinerary Approval Request for Processing, Set Messages to be Persistent
 	rabbitMQSetup.channel.basic_publish(exchange=rabbitMQSetup.exchangename, routing_key="itinerary.approval", body=message, properties=pika.BasicProperties(delivery_mode = 2)) 
 	
+def processUpdateItinerary(itineraryid):
+    print('\n-----Invoking itinerary microservice-----')
+    searchid = str(itineraryid['itineraryid'])
+    itinerary_info = invoke_http(itinerary_URL + searchid, method='PUT')
+    return {
+        "code": 201,
+        "data": {
+            "itinerarycreator": itinerary_info['data']['Itinerarycreator']
+        }
+    }
+
 # Execute this program if it is run as a main script (not by 'import')
 if __name__ == "__main__":
     print("This is flask " + os.path.basename(__file__) + " for Itinerary Approval")

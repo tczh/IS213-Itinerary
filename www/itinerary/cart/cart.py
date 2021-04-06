@@ -2,7 +2,9 @@ import os
 from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
+from sqlalchemy import Column, Integer, Text
 
+from datetime import datetime
 import json
 from os import environ
 
@@ -53,44 +55,25 @@ class CartItems(db.Model):
         return {'cartNo': self.cartNo, 'cartID': self.cartID, 'itineraryID': self.itineraryID, 'price': self.price, 'tourtitle': self.tourtitle}
 
 
-# @app.route("/order")
-# def get_all():
-#     orderlist = Order.query.all()
-#     if len(orderlist):
-#         return jsonify(
-#             {
-#                 "code": 200,
-#                 "data": {
-#                     "orders": [order.json() for order in orderlist]
-#                 }
-#             }
-#         )
-#     return jsonify(
-#         {
-#             "code": 404,
-#             "message": "There are no orders."
-#         }
-#     ), 404
+@app.route("/cart")
+def get_all():
+    cartlist = Cart.query.all()
+    if len(cartlist):
+        return jsonify(
+            {
+                "code": 200,
+                "data": {
+                    "cartlist": [cart.json() for cart in cartlist]
+                }
+            }
+        )
+    return jsonify(
+        {
+            "code": 404,
+            "message": "There are no orders."
+        }
+    ), 404
 
-# @app.route("/order/<string:order_id>")
-# def find_by_order_id(order_id):
-#     order = Order.query.filter_by(order_id=order_id).first()
-#     if order:
-#         return jsonify(
-#             {
-#                 "code": 200,
-#                 "data": order.json()
-#             }
-#         )
-#     return jsonify(
-#         {
-#             "code": 404,
-#             "data": {
-#                 "order_id": order_id
-#             },
-#             "message": "Order not found."
-#         }
-#     ), 404
 
 @app.route("/cart/<string:cartID>")
 def find_by_cart_id(cartID):
@@ -117,76 +100,60 @@ def find_by_cart_id(cartID):
             }
         )
 
-# @app.route("/cart", methods=['POST'])
-# def create_order():
-#     customer_id = request.json.get('customer_id', None)
-#     order = Order(customer_id=customer_id, status='NEW')
 
-#     cart_item = request.json.get('cart_item')
-#     for item in cart_item:
-#         order.order_item.append(Order_Item(
-#             book_id=item['book_id'], quantity=item['quantity']))
+@app.route("/deleteAll", methods=['POST'])
+def find_all_everything():
+    jsondatas = request.get_json()
+    cart = CartItems.query.filter_by(itineraryID=jsondatas['itineraryID'], cartID=jsondatas['cartID']).first()
+    db.session.delete(cart)
+    db.session.commit()
+    if cart:
+        return jsonify(
+            {
+                "code": 200
+            }
+        )
+    return jsonify(
+        {
+            "code": 404,
+            "data": {
+                "itineraryID": itineraryID
+            },
+            "message": "Review not found."
+        }
+    ), 404
 
-#     try:
-#         db.session.add(order)
-#         db.session.commit()
-#     except Exception as e:
-#         return jsonify(
-#             {
-#                 "code": 500,
-#                 "message": "An error occurred while creating the order. " + str(e)
-#             }
-#         ), 500
-    
-#     print(json.dumps(order.json(), default=str)) # convert a JSON object to a string and print
-#     print()
+@app.route("/cart", methods=["DELETE"])
+def deleteCartItems():
+    jsonData = request.get_json()
+    cartID = jsonData["cartID"]
+    cartItemsList = CartItems.query.filter_by(cartID=cartID).all()
 
-#     return jsonify(
-#         {
-#             "code": 201,
-#             "data": order.json()
-#         }
-#     ), 201
+    if not cartItemsList:
+        return jsonify(
+            {
+                "code": 404,
+                "data": {
+                    "cartID": cartID
+                },
+                "message": "Cart not found."
+            }
+        ), 404
 
+    for cartItems in cartItemsList:
+        db.session.delete(cartItems)
+        db.session.commit()
 
-# @app.route("/order/<string:order_id>", methods=['PUT'])
-# def update_order(order_id):
-#     try:
-#         order = Order.query.filter_by(order_id=order_id).first()
-#         if not order:
-#             return jsonify(
-#                 {
-#                     "code": 404,
-#                     "data": {
-#                         "order_id": order_id
-#                     },
-#                     "message": "Order not found."
-#                 }
-#             ), 404
+    cart = Cart.query.filter_by(cartID=cartID).first()
+    db.session.delete(cart)
+    db.session.commit()
 
-#         # update status
-#         data = request.get_json()
-#         if data['status']:
-#             order.status = data['status']
-#             db.session.commit()
-#             return jsonify(
-#                 {
-#                     "code": 200,
-#                     "data": order.json()
-#                 }
-#             ), 200
-#     except Exception as e:
-#         return jsonify(
-#             {
-#                 "code": 500,
-#                 "data": {
-#                     "order_id": order_id
-#                 },
-#                 "message": "An error occurred while updating the order. " + str(e)
-#             }
-#         ), 500
-
-
+    return jsonify(
+        {
+            "code": 200,
+            "status": "Successfully Deleted!"
+        }
+    )
 @app.route("/cart/insert", methods=['POST'])
 def create_review():
     emailAddr = request.get_json()["emailaddr"]
@@ -239,6 +206,70 @@ def create_review():
             "message": "Item has been sucessfully added into cart"
         }
     ), 201
+
+
+@app.route("/delcart/<int:itineraryID>", methods=['GET'])
+def delete_cart(itineraryID):
+    cartitems = CartItems.query.filter_by(itineraryID=itineraryID).first()
+    if cartitems:
+        db.session.delete(cartitems)
+        db.session.commit()
+        return jsonify(
+            {
+                "code": 200,
+                "data": {
+                    "itineraryid": itineraryID
+                }
+            }
+        )
+    return jsonify(
+        {
+            "code": 404,
+            "data": {
+                "itineraryid": itineraryID
+            },
+            "message": "Review not found."
+        }
+    ), 404
+
+@app.route("/allcartitems/<string:emailAddr>")
+def find_by_email(emailAddr):
+    cart = Cart.query.filter_by(emailAddr=emailAddr).first()
+    if cart:
+        return jsonify(
+            {
+                "code": 200,
+                "data": cart.json()
+            }
+        )
+    return jsonify(
+        {
+            "code": 404,
+            "data": {
+                "emailaddr": emailAddr
+            },
+            "message": "Order not found."
+        }
+    ), 404
+
+@app.route("/cartitems/<string:emailAddr>")
+def get_all_items_by_Email():
+    cartlist = CartItems.filter_by(emailAddr=emailAddr)
+    if len(cartlist):
+        return jsonify(
+            {
+                "code": 200,
+                "data": {
+                    "cartlist": [cart.json() for cart in cartlist]
+                }
+            }
+        )
+    return jsonify(
+        {
+            "code": 404,
+            "message": "There are no orders."
+        }
+    ), 404
 
 if __name__ == '__main__':
     print("This is flask for " + os.path.basename(__file__) + ": manage cart ...")
