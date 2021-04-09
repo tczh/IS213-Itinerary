@@ -18,3 +18,8 @@ CREATE TABLE IF NOT EXISTS `paymentItems` (
     constraint paymentItems_pk primary key (orderNo, paymentID),
     constraint paymentItems_fk foreign key (paymentID) references payment(paymentID)
 ) ENGINE=InnoDB DEFAULT CHARSET=UTF8MB4;
+
+insert into payment(emailAddr, isPaid, dateBought, totalPrice)
+values ("elgin.rspx@gmail.com", "True", "2021-03-22", 50);
+insert into paymentitems(paymentID, itineraryID)
+values (1, 5);

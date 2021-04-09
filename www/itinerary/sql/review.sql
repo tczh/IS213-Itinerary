@@ -13,8 +13,13 @@ create table Review(
 );
 
 
-insert into review(ItineraryID, EmailAddr, ReviewRating, ReviewMessage, ReviewDateTime) 
-values (1, "wcng.2019@sis.smu.edusg", 4, "Testing","2021-03-23 00:00:01");
 
-insert into review(ItineraryID, EmailAddr, ReviewRating, ReviewMessage, ReviewDateTime) 
-values (1, "elvis.leong.2019@sis.smu.edu.sg", 3, "Testing","2021-03-23 00:00:01");
+insert into review(ItineraryID, EmailAddr, ReviewRating, ReviewMessage, ReviewDateTime)
+values (2, "elvis.leong.2019@sis.smu.edu.sg", 3, "Wow so cool!","2021-03-23 00:00:01");
+insert into review(ItineraryID, EmailAddr, ReviewRating, ReviewMessage, ReviewDateTime)
+values (2, "yuhao.neo.2019@sis.smu.edu.sg", 2, "It's ok i guess...","2021-03-23 00:00:01");
+insert into review(ItineraryID, EmailAddr, ReviewRating, ReviewMessage, ReviewDateTime)
+values (2, "wcng.2019@sis.smu.edu.sg", 2, "cool!!","2021-03-23 00:00:01");
+
+insert into review(ItineraryID, EmailAddr, ReviewRating, ReviewMessage, ReviewDateTime)
+values (3, "wcng.2019@sis.smu.edu.sg", 2, "cool!!","2021-03-23 00:00:01");
