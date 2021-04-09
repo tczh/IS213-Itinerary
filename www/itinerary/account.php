@@ -191,9 +191,9 @@
 	<?php include("includes/footer.php");?>
 	
     <script>
-        get_created_info_URL = "http://localhost:5010/itinerary/creator/";
-        create_review_URL = "http://localhost:5011/review/insert";
-        get_purchased_itinerary_URL = "http://localhost:5400/display_purchased_itinerary";
+        get_created_info_URL = "http://localhost:8000/api/v1/itinerary/creator/";
+        create_review_URL = "http://localhost:8000/api/v1/review/insert";
+        get_purchased_itinerary_URL = "http://localhost:8000/api/v1/display_purchased_itinerary";
         var app = new Vue
         ({
             el: "#app",

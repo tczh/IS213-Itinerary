@@ -155,7 +155,7 @@ def deleteCartItems():
         }
     )
 @app.route("/cart/insert", methods=['POST'])
-def create_review():
+def add_to_cart():
     emailAddr = request.get_json()["emailaddr"]
     itineraryID = request.get_json()["itineraryid"]
     price = request.get_json()["price"]

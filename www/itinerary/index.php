@@ -23,6 +23,9 @@
 
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
 
+    <script src="login.js"></script>
+    <script src="signup.js"></script>
+
     <style>
         * {
                margin: 0;
@@ -89,7 +92,9 @@
     <div class="container-fluid text-center" id="searchBarImage">
         <div class = "row justify-content-center">
             <div class= "col-4 bg-light" id="searchBar">       
+
                 <label id="searchText" class="">Find your dream itinerary!</label>
+                <div id="country"></div>
                 <input id="locationInput" class="form-control mb-3" type="search" placeholder="Enter Your Dreamland (Country)" aria-label="Search">
 
                 <div class="form-group">
@@ -121,7 +126,7 @@
                     <option>Solo</option>
                     <option>With Friends</option>
                     <option>Family</option>
-                    <option>With Group</option>
+                    <option>Group</option>
                     <option>Luxury</option>
                     <option>Adventure</option>
                     </select>
@@ -140,7 +145,7 @@
         // $itineraries = $dao->retrieveAll();
         // echo "fuck";
 
-        $url = "http://localhost:5010/itinerary/retrieveAll";
+        $url = "http://localhost:8000/api/v1/itinerary/retrieveAll";
         $itineraries = json_decode(file_get_contents($url))->data->itinerary;
 
         // echo "fuck";       
@@ -177,7 +182,7 @@
             ];
         }
 
-        $url = "http://localhost:5011/review";
+        $url = "http://localhost:8000/api/v1/review";
         $allreviews = json_decode(file_get_contents($url))->data->itinerary;
 
         $allreviewsitineraryid = [];
@@ -322,7 +327,7 @@
 
     function load() {
         var input = document.getElementById("locationInput");
-        var autocomplete = new google.maps.places.Autocomplete(input);
+        // var autocomplete = new google.maps.places.Autocomplete(input);
 
         filter();
     }
@@ -343,7 +348,7 @@
 
         count = 0
         for (i=0;i<jsItinerary.length;i++) {
-            if (country != '' && country.toLowerCase() != jsItinerary[i]['country'].toLowerCase()) {
+            if (country != '' && !jsItinerary[i]['country'].toLowerCase().includes(country.toLowerCase())) {
                 tempArray.splice(i,1);
                 continue;
             }
@@ -375,7 +380,7 @@
         
         for(i=0;i<jsItinerary.length;i++){
             str += '<div class="card">';
-            str += '<img class="card-img-top" src="./images/' + jsItinerary[i]['thumbnail'] + '" alt="' + jsItinerary[i]['tourtitle'] + '">';
+            str += '<img class="card-img-top" src="' + jsItinerary[i]['thumbnail'] + '" alt="' + jsItinerary[i]['tourtitle'] + '">';
             str += '<div class="card-body">';
             str += '<h5 class="card-title">' + jsItinerary[i]['tourtitle'] + '</h5>';
             str += `<p class="card-text">Rating: <span id='rating${i}'> </span> <i class='fa fa-star' style='color:orange'></i></p>`;
@@ -432,7 +437,7 @@
             console.log(count)
             counts = 0;
             for (i=count;i<jsItinerary.length;i++) {
-                if (country != '' && country.toLowerCase() != jsItinerary[i]['country'].toLowerCase()) {
+                if (country != '' && !jsItinerary[i]['country'].toLowerCase().includes(country.toLowerCase())) {
                     continue;
                 }
 
@@ -509,7 +514,7 @@
             count = parseInt(document.getElementById('counter').innerText);
             counter = 0
             for (i=count;i<jsItinerary.length;i++) {
-                if (country != '' && country.toLowerCase() != jsItinerary[i]['country'].toLowerCase()) {
+                if (country != '' && !jsItinerary[i]['country'].toLowerCase().includes(country.toLowerCase())) {
                     continue;
                 }
 

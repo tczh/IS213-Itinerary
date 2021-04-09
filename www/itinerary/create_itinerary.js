@@ -279,7 +279,7 @@ async function sendItinerary(itineraryOwner,tourTitle,tourCategory,country,price
   console.log("test");
   // $(async() => {           
     // Change serviceURL to your own
-    var serviceURL = "http://localhost:5010/createitinerary";
+    var serviceURL = "http://localhost:8000/api/v1/createitinerary";
     
     try {
         const response =
@@ -323,7 +323,7 @@ async function sendItinerary(itineraryOwner,tourTitle,tourCategory,country,price
 }
 
 function getLatestId() {
-  var url = "http://localhost:5010/itinerary/latest";
+  var url = "http://localhost:8000/api/v1/itinerary/latest";
   var xmlhttp = new XMLHttpRequest();
 
   xmlhttp.onreadystatechange = function() {
@@ -353,6 +353,11 @@ function details_data(itinerary_id){
       InsertEachDay(day, currentDay,itinerary_id);
       currentDay += 1;
   };
+
+  document.getElementById("error-modal-body").innerHTML = "Thank you for creating your itinerary! Do wait for the approval of your itinerary.";
+  document.getElementById("errorsFooter").innerHTML = `<button class="btn btnSubmit" data-dismiss="modal" id="redirectBtn" onclick="location.href='index.php';">Done</button> `;
+  document.getElementById("closeBtn").innerHTML ="";
+  $('#errorModal').modal('show');
 }
 
 function InsertEachDay(day, currentDay,itinerary_id) {
@@ -401,7 +406,7 @@ function sendItineraryDetails(itinerary_id, currentDay,location,activity,activit
   // Creating a XHR object
   let xhr = new XMLHttpRequest();
   var detailsid = 0;
-  let url = "http://localhost:5010/createitinerary/details";
+  let url = "http://localhost:8000/api/v1/createitinerary/details";
   // open a connection
   xhr.open("POST", url, false);
   xhr.setRequestHeader("Content-Type", "application/json");

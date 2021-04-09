@@ -240,7 +240,7 @@
 	<?php include("includes/footer.php");?>
 
     <script>
-        var get_display_info_URL = "http://localhost:5200/itinerary_display";
+        var get_display_info_URL = "http://localhost:8000/api/v1/itinerary_display";
         var app = new Vue({
             el: "#app",
             data:{

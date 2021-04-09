@@ -1,3 +1,14 @@
+<?php
+	session_start();
+	if (isset($_SESSION["role"]))
+	{
+		if ($_SESSION["role"] != "admin")
+		{
+			header("Location: index.php");
+		}
+		
+	}; 
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,7 +20,16 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" integrity="sha256-h20CPZ0QyXlBuAw7A+KluUYx/3pK+c7lYEpqLTlxjYQ=" crossorigin="anonymous" />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+
+	<link href="https://fonts.googleapis.com/css?family=Raleway:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.css">
+    <link href="https://fonts.googleapis.com/css?family=Alegreya+Sans:100,100i,300,300i,400,400i,500,500i,700,700i,800,800i,900,900i" rel="stylesheet">
+	<style>
+		<?php include("includes/css.txt");?>
+	</style>
 </head>
+<?php include("includes/header.php");?>
 <body>
     <!--Check admin session-->
 
@@ -54,10 +74,11 @@
 			</div>
 		</div>
     </div>
+	<?php include("includes/footer.php");?>
 
     <script>
-        get_all_itinerary_URL = "http://localhost:5010/itinerary";
-		approve_itinerary_URL = "http://localhost:5100/itinerary_approval"
+        get_all_itinerary_URL = "http://localhost:8000/api/v1/itinerary";
+		approve_itinerary_URL = "http://localhost:8000/api/v1/itinerary_approval"
         var app = new Vue
         ({
             el: "#app",

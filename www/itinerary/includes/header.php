@@ -30,14 +30,14 @@
 				  <a class='nav-link' href='account.php'><h6>Account</h6></a>
 				  </li>
 				  <li class='nav-item'>
-				  <a class='nav-link' href='checkout.html?email=$email'><h6>Cart</h6></a>
+				  <a class='nav-link' href='checkout.php?email=$email'><h6>Cart</h6></a>
 				  </li>";
 			  }
 		  ?>
 			<?php
 			//TO REMOVE LATER
-			$_SESSION["role"] = "user";
-			  if ($_SESSION["role"] == "admin") {
+		
+			  if (isset($_SESSION['role']) && $_SESSION["role"] == "admin") {
 				  echo " <li class='nav-item'>
 				  <a class='nav-link' href='approve.php'><h6>Approvals</h6></a>
 				  </li>";

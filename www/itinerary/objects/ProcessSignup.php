@@ -46,7 +46,7 @@
 
     else {
         // API URL
-        $url = 'http://localhost:5013/createuser';
+        $url = 'http://localhost:8000/api/v1/createuser';
         // Create a new cURL resource
         $ch = curl_init($url);
         // Setup request to send json via POST
@@ -147,7 +147,7 @@
 ?>
 
 <script type="text/javascript">
-    var URL = "http://localhost:5013/createuser";
+    var URL = "http://localhost:8000/api/v1/createuser";
     var data = {
         "emailaddr": jiaqi@gmail.com,
         "phonenumber": 777,

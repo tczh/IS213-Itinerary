@@ -1,8 +1,8 @@
-<!DOCTYPE html>
 <?php
         session_start();
         // to change
 ?>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -213,7 +213,7 @@
                                         <!--TO CHANGE CHECKOUT.HTML-->
 										<?php 
 										$email=$_SESSION["email"];
-										echo"<a type='button' class='btn btn-primary' href='checkout.html?email=$email'>Checkout</a>";
+										echo"<a type='button' class='btn btn-primary' href='checkout.php?email=$email'>Checkout</a>";
 										?>
                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                                     </div>
@@ -265,8 +265,8 @@
 	
 	<?php include("includes/footer.php");?>
     <script>
-        var get_display_info_URL = "http://localhost:5200/itinerary_display";
-        var add_to_cart_URL = "http://localhost:5015/cart/insert";
+        var get_display_info_URL = "http://localhost:8000/api/v1/itinerary_display";
+        var add_to_cart_URL = "http://localhost:8000/api/v1/cart/insert";
         var app = new Vue({
             el: "#app",
             data:{
@@ -379,12 +379,16 @@
                         this.newsCheck = 0;
                         this.newsError = "There are no articles ";
                     }
-
-                    weather_info = result.weather_info;
-                    this.weathertemp = weather_info.main.temp;
-                    this.weatherdesc = weather_info.weather[0]["description"];
-                    this.weatherhumidity = weather_info.main.humidity;
-                    this.weatherwindspeed = weather_info.wind.speed;
+					
+					
+					if(result.weather_info.cod != "404"){
+						weather_info = result.weather_info;
+						
+						this.weathertemp = weather_info.main.temp;
+						this.weatherdesc = weather_info.weather[0]["description"];
+						this.weatherhumidity = weather_info.main.humidity;
+						this.weatherwindspeed = weather_info.wind.speed;
+					}
 
                 }).catch(error => {
                             console.log("Problem in retrieving display. " + error);

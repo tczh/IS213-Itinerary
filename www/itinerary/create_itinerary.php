@@ -66,19 +66,19 @@
             <div class="mb-3">
               <label for="description" class="form-label">Season </label> </br>
             <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="season" id="spring" value="spring">
+                <input class="form-check-input" type="radio" name="season" id="spring" value="Spring">
                 <label class="form-check-label" for="spring">Spring</label>
               </div>
               <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="season" id="summer" value="summer">
+                <input class="form-check-input" type="radio" name="season" id="summer" value="Summer">
                 <label class="form-check-label" for="summer">Summer</label>
               </div>
               <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="season" id="fall" value="fall" >
+                <input class="form-check-input" type="radio" name="season" id="fall" value="Fall" >
                 <label class="form-check-label" for="fall">Fall</label>
               </div>
               <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="season" id="winter" value="winter" >
+                <input class="form-check-input" type="radio" name="season" id="winter" value="Winter" >
                 <label class="form-check-label" for="winter">Winter</label>
               </div>
             </div>
@@ -86,31 +86,31 @@
             <div class="mb-3">
               <label for="description" class="form-label">Category of trip  </label> </br>
             <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="category" id="business" value="business">
+                <input class="form-check-input" type="radio" name="category" id="business" value="Business">
                 <label class="form-check-label" for="business">Business</label>
               </div>
               <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="category" id="solo" value="solo">
+                <input class="form-check-input" type="radio" name="category" id="solo" value="Solo">
                 <label class="form-check-label" for="solo">Solo</label>
               </div>
               <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="category" id="friends" value="friends" >
+                <input class="form-check-input" type="radio" name="category" id="friends" value="Friends" >
                 <label class="form-check-label" for="friends">With Friends</label>
               </div>
               <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="category" id="family" value="family" >
+                <input class="form-check-input" type="radio" name="category" id="family" value="Family" >
                 <label class="form-check-label" for="family">Family</label>
               </div>
               <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="category" id="group" value="group" >
+                <input class="form-check-input" type="radio" name="category" id="group" value="Group" >
                 <label class="form-check-label" for="group">With Group</label>
               </div>
               <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="category" id="luxury" value="luxury" >
+                <input class="form-check-input" type="radio" name="category" id="luxury" value="Luxury" >
                 <label class="form-check-label" for="luxury">Luxury</label>
               </div>
               <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="category" id="adventure" value="adventure" >
+                <input class="form-check-input" type="radio" name="category" id="adventure" value="Adventure" >
                 <label class="form-check-label" for="adventure">Adventure</label>
               </div>
             </div>
@@ -203,8 +203,31 @@
     <!-- Price input -->
     <div class="container-fluid p-2" id="submit" style="position: sticky;bottom: 0; margin-left: 0px; background: -webkit-linear-gradient(left, #0072ff, #8811c5); overflow: hidden;">
           <form>
-            <button type="button" class="btn btnSubmit pull-right" onclick="general_data()" data-toggle="modal" data-target="#errors">Submit</button> 
+            <button type="button" class="btn btnSubmit pull-right" onclick="general_data()" data-toggle="modal" data-target="#errorModal">Submit</button> 
           </form>
+    </div>
+
+	<!--form validation error modal-->
+	<div class="modal fade" id="errorModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Itinerary Creation</h5>
+              <span id="closeBtn">
+              <button type="button btn" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+              </span>
+            </button>
+          </div>
+          <div class="modal-body" id="error-modal-body">
+            loading...
+          </div>
+          <div class="modal-footer" id="errorsFooter">
+           <!-- <button class="btn btnSubmit" data-dismiss="modal" id="redirectBtn">Done</button> -->
+          </div>
+        </div>
+      </div>
     </div>
 
 	<?php include("includes/footer.php");?>

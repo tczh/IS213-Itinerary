@@ -13,40 +13,55 @@
         $_SESSION["nopassword"] = true;
         header("Location: ../login.php");
     }
-    var_dump(isset($_GET['google']));
+    // var_dump(isset($_GET['google']));
     if (isset($_GET['google'])) {
         $google = $_GET['google'];
     }
 
-    $url = "http://localhost:5013/user/$email";
+    $url = "http://localhost:8000/api/v1/user";
 
-    var_dump($email);
-    var_dump($url);
+    // var_dump($email);
+    // var_dump($url);
 
-    $user = json_decode(file_get_contents($url))->data->user;
+    $users = json_decode(file_get_contents($url))->data->user;
 
-    var_dump($user);
+    // var_dump('test');
+    // var_dump($users);
 
-    var_dump(isset($user->message));
-    var_dump($user->password == $password);
+    // var_dump(isset($user->message));
+    // var_dump($user->password == $password);
+
+    $primary = "";
+
+    for ($i=0; $i<count($users);$i++) {
+        // var_dump($users[$i]->emailaddr);
+        if ($users[$i]->emailaddr == $email) {
+            $primary = $users[$i];
+        }
+    }
+
+    // var_dump($primary);
 
     // alert();
 
     // $dao = new UserDAO();
     // $user = $dao->retrieve($email);
     // $success = false;
-    if(!isset($user->message) && ($user->password == $password)){
+    if($primary!="") {
+        // var_dump(!isset($primary->message));
+        if ($primary->password == $password) {
         // $hashed = $user->getHashedPassword();
         // $success = password_verify($password,$hashed); 
         // if () {
         // if($success){
             // var_dump($user->getUserId());
-            $_SESSION["email"] = $user->emailaddr;
+            $_SESSION["email"] = $primary->emailaddr;
+            $_SESSION["role"] = $primary->role;
             // $_SESSION["fullname"] = 
             $_SESSION["check"] = true;
             // var_dump('test');
             // var_dump('testtt');
-            if ($user->role == "user") {
+            if ($primary->role == "user") {
                 header("Location: ../index.php");
             }
             else {
@@ -54,10 +69,15 @@
             }
             // var_dump($_SESSION["email"]);
         // }
+        }
+        else {
+            $_SESSION["check"] = false;
+            header("Location: ../login.php");
+        }
     }
     
     elseif (isset($google)) {
-        var_dump($google);
+        // var_dump($google);
         // var_dump("shit");
         $_SESSION["email"] = $email;
         $_SESSION["check"] = true;
@@ -65,23 +85,24 @@
         // $count = $dao->generateUserId();
         // $_SESSION["userid"] = $email;
         // $user = $dao->retrieve($email);
-        if (len($user)>1) {
-            $_SESSION["email"] = $user->emailaddr;
+        if ($primary!= "") {
+            $_SESSION["email"] = $primary->emailaddr;
+            $_SESSION["role"] = 'user';
             header("Location: ../index.php");
         }
         else {
-            $url = 'http://localhost:5013/createuser';
+            $url = 'http://localhost:8000/api/v1/createuser';
             // Create a new cURL resource
             $ch = curl_init($url);
             // Setup request to send json via POST
             $data = array(
                 "emailaddr" => $email,
-                "phonenumber" => $phonenumber,
-                "firstname" => $first,
-                "lastname" => $last,
-                "password" => $password,
-                "country" => $country,
-                "address" => $address,
+                "phonenumber" => "",
+                "firstname" => $_GET['first'],
+                "lastname" => $_GET['last'],
+                "password" => "",
+                "country" => "",
+                "address" => "",
                 "role" => 'user'
             );
             $payload = json_encode($data);
