@@ -56,7 +56,6 @@
         }
 
         .box1{
-            height:200px;
             background-color:white; 
             margin-top: 15px;
             margin-left:15px;
@@ -64,7 +63,9 @@
             margin-bottom:25px;
             border-radius:5px;
             background-color: #EBA39E;
-            padding: 10px
+            padding: 10px;
+            overflow:hidden;
+            word-wrap: break-word;
         }
         .box1 h3{
             font-family: 'Didact Gothic', sans-serif;
@@ -74,7 +75,6 @@
         }
         .shadow1{
             box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-            position:relative;
         }
 
 		<?php include("includes/css.txt");?>
@@ -240,7 +240,7 @@
 	<?php include("includes/footer.php");?>
 
     <script>
-        var get_display_info_URL = "http://localhost:8000/api/v1/itinerary_display";
+        var get_display_info_URL = "http://localhost:8000/api/v1/retrieve_itinerary_details";
         var app = new Vue({
             el: "#app",
             data:{
@@ -291,9 +291,7 @@
                     body: jsonData
                 }).then(response => response.json())
                 .then(data => {
-                    console.log(data);
                     result = data.data;
-                    console.log(result);
                     itinerary_info = result.itinerary_info.data;
                     this.country = itinerary_info.country;
                     this.timecreated = itinerary_info.datetimecreated;
@@ -307,12 +305,10 @@
                     for (record of itinerarydetails_info) {
                         this.daycount = record["daynumber"]
                         this.detailsArray.push(record);
-                        console.log(record);
                     }
                     if(typeof(result.review_info.data) != "undefined"){
                         review_info = result.review_info.data.review;
                         reviewCount = review_info.length;
-                        console.log("test")
                         if(reviewCount >=5){
                             for (i=reviewCount; i>reviewCount-5;i--) {
                                 this.reviewArray.push(review_info[i]);
@@ -321,13 +317,11 @@
                         else{
                             for(record of review_info){
                                 this.reviewArray.push(record);
-                                console.log(record);
                             }
                         }
                         this.averageRating = 0
                         for(record of review_info){
                             this.averageRating += parseInt(record['reviewrating']);
-                            console.log(this.averageRating);
                         }
                         this.averageRating = this.averageRating/reviewCount;
                         this.averageRating= this.averageRating.toFixed(2);

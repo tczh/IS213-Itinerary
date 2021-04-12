@@ -39,18 +39,6 @@ function retrieveAllCarts(response_json){
             <th>Price</th>
             <th><input type="checkbox" class="allCarts" onclick='selectedAll()'></th>
         </tr>`;
-    /*tableHtml += `
-    <div class="container" style="margin-top:10px; background-color:"white">
-        <div class="row" style="border-bottom: gray solid 1px ;">
-        <div class="col-8" style="padding: 10px; ">
-        <input type="checkbox" class="store" id="${email}" onclick="selected()" value="0">&nbsp&nbsp&nbsp
-        <label for="${response_json["data"]["cartID"]}"><i> <div id='retrieveName'></div></i></label>
-        </div>
-    </div>
-    <div class="row">
-    <div class="col-3" style="padding: 10px; overflow: hidden;">
-        <input type="checkbox" class="${response_json["data"]["cartID"]} id=`;
-    */
     for(items of cart){
         count += 1;
         totalPrice += items['price'];
@@ -83,7 +71,6 @@ function retrieveAllCart(obj){
     var tableHtml = ``;
     var cart = response_json["data"]["cartItems"];
     sessionStorage.setItem("cart",cart);
-    // var emails = sessionStorage.setItem('emails', email);
     var retrieveEmail = sessionStorage.getItem('email');
     var cartId = response_json["data"]["cartID"];
     var count = 0;
@@ -96,18 +83,6 @@ function retrieveAllCart(obj){
             <div class="description">Price (SGD)</div>
             <div class="description">Delete</div>
         </div>`;
-    /*tableHtml += `
-    <div class="container" style="margin-top:10px; background-color:"white">
-        <div class="row" style="border-bottom: gray solid 1px ;">
-        <div class="col-8" style="padding: 10px; ">
-        <input type="checkbox" class="store" id="${email}" onclick="selected()" value="0">&nbsp&nbsp&nbsp
-        <label for="${response_json["data"]["cartID"]}"><i> <div id='retrieveName'></div></i></label>
-        </div>
-    </div>
-    <div class="row">
-    <div class="col-3" style="padding: 10px; overflow: hidden;">
-        <input type="checkbox" class="${response_json["data"]["cartID"]} id=`;
-    */
     var carts = sessionStorage.getItem('cart');
     for(items of cart){
         count += 1;
@@ -124,35 +99,18 @@ function retrieveAllCart(obj){
     var counting = sessionStorage.getItem('quantity');
 
     document.getElementById('itemization').innerHTML = tableHtml;
-    // document.getElementById('total_number').innerHTML = count;
     document.getElementById('total_amount').innerHTML = "Total: SGD $" + totalPrice;
     sessionStorage.setItem('prices', totalPrice);
-    //document.getElementById('checkout').innerHTML = "<button "
     var form = document.getElementById("submit");
     form.addEventListener("click", function(event) {
 
     var prices = sessionStorage.getItem('prices')
-    // var emailAddr = sessionStorage.getItem('emails');
     sessionStorage.setItem("emails", email);
     processCheckout(prices, email, cartId);
     });
 
 }
 
-function retrieveItinerary(itineraryID, tableHtml){
-       
-    // Change serviceURL to your own
-
-    var request = new XMLHttpRequest();
-    request.onreadystatechange = function() {
-        if (this.readyState == 4 && this.status == 200) {
-            retrieveitineraryID(this, itineraryID, tableHtml)
-        }
-    }
-    request.open("GET", (`${itineraryURL}/${itineraryID}`), false);
-    request.setRequestHeader("Content-type", "application/json");
-    request.send();
-}
 function deleteItinerary(itineraryID,cartID){
     var email = sessionStorage.getItem("email");
     var deleteURL = "http://localhost:5015/deleteAll";
@@ -189,9 +147,7 @@ function select_all(){
         checkbox.checked = false;
     }
 }
-function checkout_button(){
-    //Link to Yuhao's page
-}
+
 function deletebyItinerary(itineraryID){
     var checkboxes = document.getElementsByName("individualcheck");
     if(checkbox == true){
@@ -225,7 +181,6 @@ function processCheckout(price, email, cartId) {
 
             sessionStorage.setItem("cartId", cartId);
             sessionStorage.setItem("totalPrice", price);
-            //sessionStorage.setItem("quantity", count_of_itinerary);
             sessionStorage.setItem("paymentId", data["data"]["payment_result"]["data"]["paymentID"]);
             window.location.href = "payment.php";
         }

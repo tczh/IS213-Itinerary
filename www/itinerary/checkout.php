@@ -26,8 +26,6 @@
 * {
   box-sizing: border-box;
 }
- 
-
 
 .shopping-cart {
   width: 750px;

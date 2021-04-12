@@ -17,7 +17,6 @@
     <style>
         * {
                margin: 0;
-               /* padding-top: 50px; */
         }
 
         .marginbox {

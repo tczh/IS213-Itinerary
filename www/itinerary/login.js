@@ -12,6 +12,5 @@ function onSignIn(googleUser) {
 
     gapi.auth2.getAuthInstance().disconnect();
 
-    
     window.location.replace("objects/ProcessLogin.php?google=true&password=&email=" + email + "&first=" + first + "&last=" + last);
   }

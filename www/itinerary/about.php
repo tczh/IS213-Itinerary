@@ -1,10 +1,5 @@
 <?php
     session_start();
-    spl_autoload_register(
-        function($class){
-            require_once "objects/model/$class.php";
-        }
-    );
 ?>
 
 <!DOCTYPE html>
@@ -112,7 +107,7 @@
             <h2 class="text-dark">What Our Customers Say</h2>
             <div class="testimonial bg-dark">
                 <img src="images/Timothy.jpg" alt="Tim">
-                <h4>Thanks Guan Yin Ma for this dope app!</h4>
+                <h4>Thanks Odyssey for this dope app!</h4>
             </div>
         </div>
     </section>

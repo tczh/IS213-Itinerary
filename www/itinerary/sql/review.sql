@@ -12,8 +12,6 @@ create table Review(
     constraint review_pk primary key (ReviewID)
 );
 
-
-
 insert into review(ItineraryID, EmailAddr, ReviewRating, ReviewMessage, ReviewDateTime)
 values (2, "elvis.leong.2019@sis.smu.edu.sg", 3, "Wow so cool!","2021-03-23 00:00:01");
 insert into review(ItineraryID, EmailAddr, ReviewRating, ReviewMessage, ReviewDateTime)

@@ -63,7 +63,6 @@ def processPurchaseItinerary(cart_info):
 
     # 3. Create new payment record
     # Invoke payment microservice
-    print(cart_info)
     combine_json_data = cart_result['data']
     combine_json_data['cartID'] = cartID
     combine_json_data['emailAddr'] = cart_info['emailAddr']
@@ -107,7 +106,6 @@ def createPaymentIntent():
             exc_type, exc_obj, exc_tb = sys.exc_info()
             fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
             ex_str = str(e) + " at " + str(exc_type) + ": " + fname + ": line " + str(exc_tb.tb_lineno)
-            print(ex_str)
 
             return jsonify({
                 "code": 500,
@@ -159,7 +157,7 @@ def update_payment():
                         "status": "Success!"
                     }
             else:
-                return paymentIntent_update_result
+                return payment_update_result
 
         except Exception as e:
             # Unexpected error in code

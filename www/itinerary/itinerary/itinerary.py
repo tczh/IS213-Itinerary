@@ -128,10 +128,10 @@ def find_specific_itinerary(itineraryid):
         }
     ), 404
 
-@app.route("/createitinerary", methods=['GET', 'POST'])
+@app.route("/createitinerary", methods=['POST'])
 def create_itinerary():
     request_data = request.get_json()
-    print(request_data, "HELLO")
+    #print(request_data)
     itinerarycreator = request_data['Itineraryowner']
     tourtitle = request_data['tourtitle']
     tourcategory = request_data['tourcategory']
@@ -140,9 +140,8 @@ def create_itinerary():
     thumbnail = request_data['thumbnail']
     season = request_data['season']
     hasapproved = request_data['HasApproved']
-    #datetimecreated = request.get_json('datetimecreated')
     itinerary = Itinerary(itineraryid=None, itinerarycreator=itinerarycreator,tourtitle=tourtitle,tourcategory=tourcategory,country=country,season=season,price=price,thumbnail=thumbnail,datetimecreated=None,hasapproved=hasapproved)
-    print(itinerary.json())
+    #print(itinerary.json())
     try:
         db.session.add(itinerary)
         db.session.commit()
@@ -153,8 +152,7 @@ def create_itinerary():
                 "message": "An error occurred while creating the itinerary. " + str(e)
             }
         ), 500
-    print(json.dumps(itinerary.json(), default=str)) # convert a JSON object to a string and print
-    print()
+    #print(json.dumps(itinerary.json(), default=str)) # convert a JSON object to a string and print
     return jsonify(
         {
             "code": 201,
@@ -162,7 +160,7 @@ def create_itinerary():
         }
     ), 201
 
-@app.route("/createitinerary/details", methods=['GET','POST'])
+@app.route("/createitinerary/details", methods=['POST'])
 def create_itinerary_details():
     request_data = request.get_json()
     itineraryid = request_data['itineraryid']
@@ -185,8 +183,6 @@ def create_itinerary_details():
                 "message": "An error occurred while creating the itinerary details. " + str(e)
             }
         ), 500
-    #print(json.dumps(itinerarydetails.json(), default=str)) # convert a JSON object to a string and print
-    #print()
     return jsonify(
         {
             "code": 201,
@@ -254,7 +250,6 @@ def get_all_approved():
 @app.route("/approveitinerary/<string:itineraryid>", methods=['PUT'])
 def approve_itinerary(itineraryid):
     try:
-        # print(type(itineraryid))
         itinerary = Itinerary.query.filter_by(itineraryid=itineraryid).first()
         if not itinerary:
             return jsonify(
@@ -266,7 +261,6 @@ def approve_itinerary(itineraryid):
                     "message": "itinerary not found."
                 }
             ), 404
-
         # update status
         itinerary.hasapproved = True
         db.session.commit()

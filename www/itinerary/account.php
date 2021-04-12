@@ -193,7 +193,7 @@
     <script>
         get_created_info_URL = "http://localhost:8000/api/v1/itinerary/creator/";
         create_review_URL = "http://localhost:8000/api/v1/review/insert";
-        get_purchased_itinerary_URL = "http://localhost:8000/api/v1/display_purchased_itinerary";
+        get_purchased_itinerary_URL = "http://localhost:8000/api/v1/retrieve_purchased_itineraries";
         var app = new Vue
         ({
             el: "#app",
@@ -212,9 +212,7 @@
                 fetch(get_created_info_URL+this.userid)
                 .then(response => response.json())
                     .then(data => {
-                        console.log(data);
                         result = data.data.itinerary;
-                        console.log(result);
                         for (record of result) {
                             this.createdarray.push(record);
                         }
@@ -231,9 +229,7 @@
                 })
                 .then(response => response.json())
                     .then(data => {
-                        console.log(data);
                         result = data.data.itinerary_info;
-                        console.log(result);
                         for(itinerary of result){
                             this.purchasearray.push(itinerary);
                         }
@@ -256,9 +252,7 @@
                     if(activityRating ==0){
                         return this.reviewmessage ="Please enter your rating!";
                     }
-                    
-                    console.log(activityRating);
-                    console.log(msg);
+
                     fetch(create_review_URL,
                         {
                             method: "POST",
@@ -275,9 +269,7 @@
                         })
                         .then(response => response.json())
                         .then(data => {
-                            console.log(data);
                             result = data;
-                            console.log(result);
                             // 3 cases
                             switch (data.code) {
                                 case 201:
@@ -309,7 +301,6 @@
                                     break;
 
                             } // switch
-                            console.log(reviewmessage);
                             this.reviewsucess = true;
                         })
                         .catch(error => {

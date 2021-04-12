@@ -36,7 +36,6 @@
         }
 
         .box1{
-            height:200px;
             background-color:white; 
             margin-top: 15px;
             margin-left:15px;
@@ -44,17 +43,20 @@
             margin-bottom:25px;
             border-radius:5px;
             background-color: #EBA39E;
-            padding: 10px
+            padding: 10px;
+            overflow:hidden;
+            word-wrap: break-word;
         }
+
         .box1 h3{
             font-family: 'Didact Gothic', sans-serif;
             font-weight:normal;
             text-align:center;
             color:#fff;
         }
+		
         .shadow1{
             box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-            position:relative;
         }
 
 		<?php include("includes/css.txt");?>
@@ -265,7 +267,7 @@
 	
 	<?php include("includes/footer.php");?>
     <script>
-        var get_display_info_URL = "http://localhost:8000/api/v1/itinerary_display";
+        var get_display_info_URL = "http://localhost:8000/api/v1/retrieve_itinerary_details";
         var add_to_cart_URL = "http://localhost:8000/api/v1/cart/insert";
         var app = new Vue({
             el: "#app",
@@ -317,9 +319,7 @@
                     body: jsonData
                 }).then(response => response.json())
                 .then(data => {
-                    console.log(data);
                     result = data.data;
-                    console.log(result);
                     itinerary_info = result.itinerary_info.data;
                     this.country = itinerary_info.country;
                     this.timecreated = itinerary_info.datetimecreated;
@@ -333,13 +333,11 @@
                     for (record of itinerarydetails_info) {
                         if (record['daynumber'] == 1) {
                             this.detailsArray.push(record);
-                            console.log(record);
                         }
                     }
                     if(typeof(result.review_info.data) != "undefined"){
                         review_info = result.review_info.data.review;
                         reviewCount = review_info.length;
-                        console.log("test")
                         if(reviewCount >=5){
                             for (i=reviewCount; i>reviewCount-5;i--) {
                                 this.reviewArray.push(review_info[i]);
@@ -348,13 +346,11 @@
                         else{
                             for(record of review_info){
                                 this.reviewArray.push(record);
-                                console.log(record);
                             }
                         }
                         this.averageRating = 0
                         for(record of review_info){
                             this.averageRating += parseInt(record['reviewrating']);
-                            console.log(this.averageRating);
                         }
                         this.averageRating = this.averageRating/reviewCount;
                         this.averageRating= this.averageRating.toFixed(2);
@@ -379,7 +375,6 @@
                         this.newsCheck = 0;
                         this.newsError = "There are no articles ";
                     }
-					
 					
 					if(result.weather_info.cod != "404"){
 						weather_info = result.weather_info;
@@ -414,9 +409,7 @@
                         })
                         .then(response => response.json())
                         .then(data => {
-                            console.log(data);
                             result = data;
-                            console.log(result);
                             // 3 cases
                             switch (data.code) {
                                 case 201:
@@ -450,8 +443,6 @@
                         .catch(error => {
                             console.log("Problem in adding to cart. " + error);
                         })
-
-
                 }
             }
         });

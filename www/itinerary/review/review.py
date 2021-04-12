@@ -37,7 +37,7 @@ class Review(db.Model):
 
 @app.route("/review")
 def get_all():
-    reviewlist = Review.query.all()
+    reviewlist = Review.query.order_by(Review.itineraryid).all()
     if len(reviewlist):
         return jsonify(
             {
@@ -110,8 +110,6 @@ def find_details_by_id(itineraryid):
             "message": "Reviews not found for itinerary."
         }
     ), 404
-
-
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5011, debug=True)

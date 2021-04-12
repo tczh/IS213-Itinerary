@@ -59,23 +59,6 @@ services:
       PYTHONUNBUFFERED: 1
 
   ###################################
-  # User: The User microservice
-  ###################################
-  user:
-    build:
-      context: ./
-      dockerfile: ./user/User.Dockerfile
-    image: elginrspx/user:Odyssey
-    restart: always
-    networks:
-      - kong-net
-    environment:
-      dbURL: mysql+mysqlconnector://is213@host.docker.internal:3306/user
-      PYTHONUNBUFFERED: 1
-    ports:
-      - "5013:5013"
-
-  ###################################
   # Itinerary: The Itinerary microservice PORT 5010
   ###################################
   itinerary:
@@ -108,6 +91,23 @@ services:
       PYTHONUNBUFFERED: 1
     ports:
       - "5011:5011"
+
+  ###################################
+  # User: The User microservice PORT 5013
+  ###################################
+  user:
+    build:
+      context: ./
+      dockerfile: ./user/User.Dockerfile
+    image: elginrspx/user:Odyssey
+    restart: always
+    networks:
+      - kong-net
+    environment:
+      dbURL: mysql+mysqlconnector://is213@host.docker.internal:3306/user
+      PYTHONUNBUFFERED: 1
+    ports:
+      - "5013:5013"
 
   ###################################
   # Cart: The Cart microservice PORT 5015
@@ -167,13 +167,13 @@ services:
       - "5100:5100"
 
   ###############################################
-  # Itinerary Display: The Itinerary Display complex microservice PORT 5200
+  # Retrieve Itinerary Details: The Retrieve Itinerary Details complex microservice PORT 5200
   ###############################################
-  itinerary_display:
+  retrieve_itinerary_details:
     build:
       context: ./
-      dockerfile: ./itinerary_display/itinerary_display.Dockerfile
-    image: elginrspx/itinerary_display:Odyssey
+      dockerfile: ./retrieve_itinerary_details/retrieve_itinerary_details.Dockerfile
+    image: elginrspx/retrieve_itinerary_details:Odyssey
     restart: always
     networks:
       - kong-net
@@ -213,13 +213,13 @@ services:
       - "5300:5300"
 
   ###############################################
-  # Display Purchased Itinerary: The Display Purchased itinerary complex microservice PORT 5400
+  # Retrieve Purchased Itineraries: The Retrieve Purchased Itineraries complex microservice PORT 5400
   ###############################################
-  display_purchased_itinerary:
+  retrieve_purchased_itineraries:
     build:
       context: ./
-      dockerfile: ./display_purchased_itinerary/display_purchased_itinerary.Dockerfile
-    image: elginrspx/display_purchased_itinerary:Odyssey
+      dockerfile: ./retrieve_purchased_itineraries/retrieve_purchased_itineraries.Dockerfile
+    image: elginrspx/retrieve_purchased_itineraries:Odyssey
     restart: always
     networks:
       - kong-net

@@ -90,9 +90,7 @@
                 fetch(get_all_itinerary_URL)
                 .then(response => response.json())
                     .then(data => {
-                        console.log(data);
                         result = data.data.itinerary;
-                        console.log(result);
                         for (record of result) {
                             if (record['hasapproved'] == false){
                                 this.createdarray.push(record);
@@ -115,9 +113,7 @@
                         })
                         .then(response => response.json())
                         .then(data => {
-                            console.log(data);
                             result = data;
-                            console.log(result);
                             // 3 cases
                             switch (data.code) {
                                 case 201:

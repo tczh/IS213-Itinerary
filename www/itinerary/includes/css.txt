@@ -80,7 +80,6 @@
 				margin-bottom:30px
 			}
 		}
-		/*jq problem */
 		@media (max-width:767px)
 		{
 			.site-footer

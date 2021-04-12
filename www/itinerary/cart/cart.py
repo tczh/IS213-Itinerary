@@ -101,13 +101,13 @@ def find_by_cart_id(cartID):
         )
 
 
-@app.route("/deleteAll", methods=['POST'])
+@app.route("/deleteAll", methods=['DELETE'])
 def find_all_everything():
     jsondatas = request.get_json()
     cart = CartItems.query.filter_by(itineraryID=jsondatas['itineraryID'], cartID=jsondatas['cartID']).first()
-    db.session.delete(cart)
-    db.session.commit()
     if cart:
+        db.session.delete(cart)
+        db.session.commit()
         return jsonify(
             {
                 "code": 200
@@ -119,7 +119,7 @@ def find_all_everything():
             "data": {
                 "itineraryID": itineraryID
             },
-            "message": "Review not found."
+            "message": "Itinerary not found."
         }
     ), 404
 
@@ -155,7 +155,7 @@ def deleteCartItems():
         }
     )
 @app.route("/cart/insert", methods=['POST'])
-def add_to_cart():
+def create_review():
     emailAddr = request.get_json()["emailaddr"]
     itineraryID = request.get_json()["itineraryid"]
     price = request.get_json()["price"]
@@ -185,7 +185,7 @@ def add_to_cart():
                 }
             ), 500
 
-        print(json.dumps(cart.json(), default=str)) # convert a JSON object to a string and print
+        #print(json.dumps(cart.json(), default=str)) # convert a JSON object to a string and print
 
     cartID = Cart.query.filter_by(emailAddr=emailAddr).first().cartID
     cartlist = Cart.query.filter_by(emailAddr=emailAddr).first()
@@ -201,38 +201,12 @@ def add_to_cart():
                 "message": "An error occurred while adding the cart items. " + str(e)
             }
         ), 500
-    #return json.dumps(cartitems.json(), default=str)# convert a JSON object to a string and print
     return jsonify(
         {
             "code": 201,
             "message": "Item has been sucessfully added into cart"
         }
     ), 201
-
-
-@app.route("/delcart/<int:itineraryID>", methods=['GET'])
-def delete_cart(itineraryID):
-    cartitems = CartItems.query.filter_by(itineraryID=itineraryID).first()
-    if cartitems:
-        db.session.delete(cartitems)
-        db.session.commit()
-        return jsonify(
-            {
-                "code": 200,
-                "data": {
-                    "itineraryid": itineraryID
-                }
-            }
-        )
-    return jsonify(
-        {
-            "code": 404,
-            "data": {
-                "itineraryid": itineraryID
-            },
-            "message": "Review not found."
-        }
-    ), 404
 
 @app.route("/allcartitems/<string:emailAddr>")
 def find_by_email(emailAddr):

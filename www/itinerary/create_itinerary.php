@@ -119,19 +119,13 @@
             <div class="mb-3">
                 <label for="image" class="form-label">Enter a Image URL</label>
                 <input name="image" class="form-control" type="url" id="fileName"/>
-                <!-- <input name="image" class="form-control" type="url" id="fileName" onchange="validateFileType()"/> -->
             </div>
             
             <div class="mb-3">
                 <label for="description" class="form-label">Price</label>
                 <input type="number" min="0" class="form-control" id="price">
             </div>
-            <!-- <div class="mb-3">
-              <button type="button" class="btnSubmit" >Upload</button>
-            </div> -->
-
         </div>
-
         </form>
         </div>
     </div>
@@ -146,7 +140,6 @@
             <form>
               <div class="note">
                 <h3 class="d-inline-block dayNum">Day 1</h3> 
-                <!-- <button class="btn rounded-3 pull-right" ><i class="fa fa-close"></i></button> -->
               </div>
 
               <div class="form-content" >
@@ -207,8 +200,8 @@
           </form>
     </div>
 
-	<!--form validation error modal-->
-	<div class="modal fade" id="errorModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<!--form validation error modal - New -->
+  <div class="modal fade" id="errorModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
@@ -224,7 +217,6 @@
             loading...
           </div>
           <div class="modal-footer" id="errorsFooter">
-           <!-- <button class="btn btnSubmit" data-dismiss="modal" id="redirectBtn">Done</button> -->
           </div>
         </div>
       </div>

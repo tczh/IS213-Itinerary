@@ -1,10 +1,5 @@
 <?php
     session_start();
-    spl_autoload_register(
-        function($class){
-            require_once "objects/model/$class.php";
-        }
-    );
 ?>
 
 <!DOCTYPE html>
@@ -140,25 +135,8 @@
     
     <div id="cards">
     <?php
-    #MICROSERVICE CALL
-        // $dao = new ItineraryDAO();
-        // $itineraries = $dao->retrieveAll();
-        // echo "fuck";
-
         $url = "http://localhost:8000/api/v1/itinerary/retrieveAll";
         $itineraries = json_decode(file_get_contents($url))->data->itinerary;
-
-        // echo "fuck";       
-        // echo json_decode(file_get_contents($url)); this works
-
-        // var_dump(json_decode(file_get_contents($url))->data->itinerary);
-
-        // while($row = json_decode(file_get_contents($url))) {
-        //     $obj[] = new obj( $row['code'], $row['data'] );
-        // }
-        // echo 'fuck';
-        
-        // $itineraries[] = new Itinerary( $obj['data'], $row['itineraryowner'], $row['tourtitle'], $row['tourcategory'], $row['country'], $row['price'], $row['thumbnail'], $row['season'] );
 
         foreach ($itineraries as $itinerary) {
             $itineraryid = $itinerary->itineraryid;
@@ -200,31 +178,35 @@
 
         $rateArray = [];
 
+        $x=0;
         foreach ($itineraryArray as $itinerary) {
+            
             if (in_array($itinerary['itineraryid'], $allreviewsitineraryid)) {
-                $count = count($allreviewsitineraryid);
+                // var_dump($allreviewsitineraryid);
+                $counts = array_count_values($allreviewsitineraryid);
+                $count = $counts[$itinerary['itineraryid']];
+                // $count = count($allreviewsitineraryid);
                 $rate = 0;
 
-                for ($i=0; $i<$count;$i++) {
+                for ($i=$x; $i<$x+$count;$i++) {
                     $rate += $allreviews[$i]->reviewrating;
+                    // var_dump($rate);
                 }
+                // var_dump($rate);
+                // var_dump($count);
 
                 $rate = $rate/$count;
-                $rateArray[] = $rate;
+                $rateArray[] = round($rate, 2);
+                $x += $count;
+                // var_dump($x);
+                
             }
             else {
                 $rateArray[] = 'NIL';
             }
         }
-
-        var_dump($rateArray);
-
-        // $url = "http://localhost:5011/review/" + itinerary['itineraryid'];
-
-        // var_dump($allreviewsitineraryid);
     ?>
     </div>
-
 
     <div class='d-none' id='jsitin'></div>
     <div id="nextback">
@@ -249,86 +231,18 @@
 
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script type="text/javascript">
-    // var jsItineraryWithoutRate = <?php
-    // echo json_encode($itineraryArray); ?>;
-
-
-
-
-    // var allreviews = <?php 
-    // echo json_decode(file_get_contents("http://localhost:5011/review"))->data->itinerary; 
-    ?>
-
-    // var rateArray = [];
     var rateArray = <?php echo json_encode($rateArray); ?>;
-
-    // var itineraryids = []
-    // for (itineraryid of allreviews) {
-    //     itineraryids.push(itineraryid['itineraryid']);
-    // }
-
-    // console.log(itineraryids)
-    // console.log(jsItineraryWithoutRate)
-    // var allreviewsitineraryid = 
-    <?php 
-    // echo $allreviewsitineraryid; ?>;
-    // for (itinerary of jsItineraryWithoutRate) {
-    //     if (itinerary['itineraryid'] in allreviewsitineraryid)
-    //     url = "http://localhost:5011/review/" + itinerary['itineraryid'];
-        // console.log(url, 'fuck');
-        // var reviews = ;
-        <?php
-        // echo json_decode(file_get_contents($url))->data->review;
-        ?>
-
-        // count = $reviews.length
-        // rate = 0
-
-        // for (i=0; i<$reviews.length; i++) {
-        //     rate += $reviews[i]['reviewrating']
-        // }
-
-        // rate = rate/count
-        // rateArray.push(rate.toFixed(2));
-    // }
-        
-        // url = "api/itinerarypage/getItineraryReview.php?itineraryid=" + itinerary['itineraryid'];
-        // axios.get(url)
-        // .then(response =>{
-            
-        //     post_array = response.data.records
-        //     count = post_array.length
-        //     rate = 0
-        //     for (record of post_array){
-        //         rate += parseInt(record['rate'])
-        //     }
-        //     rate = rate/count
-        //     rateArray.push(rate.toFixed(2));
-
-        //     console.log(rate);
-        // })
-        // }
-
-    // console.log(rateArray)
-    // rateArray = [4,5]
-
-    
 
     jsItinerary = []
     count = 0;
     for (itinerary of jsItineraryWithoutRate) {
-        console.log(rateArray[count])
         jsItinerary.push(itinerary)
         jsItinerary[count]['rate'] = rateArray[count];
         count += 1;
     }
 
-    console.log(jsItinerary);
-
     function load() {
         var input = document.getElementById("locationInput");
-        // var autocomplete = new google.maps.places.Autocomplete(input);
-
         filter();
     }
 
@@ -364,15 +278,12 @@
             }
 
             var priceArray = [[0,9.99], [10, 19.99], [20,29.99], [30,39.99], [40,49.99], [50, 9999999999]];
-
             if (price != 0 && ((parseFloat(jsItinerary[i]['price']) < priceArray[(price-1)][0]) || (parseFloat(jsItinerary[i]['price']) > priceArray[(price-1)][1]))) {
                 tempArray.splice(i,1);
                 continue;
             }
 
             arrayItinerary.push(jsItinerary[i]);
-            
-            
         }
 
         jsItinerary = arrayItinerary;
@@ -412,7 +323,6 @@
         document.getElementById('counter').innerText = 0
         $('#backbtn').attr('disabled', true);
 
-        console.log(jsItinerary.length)
         if (jsItinerary.length <= 3) {
             $('#nextbtn').attr('disabled', true);
         }
@@ -433,8 +343,6 @@
             var str = '<div class="card-columns">';
 
             count = parseInt(document.getElementById('counter').innerText);
-            console.log(jsItinerary);
-            console.log(count)
             counts = 0;
             for (i=count;i<jsItinerary.length;i++) {
                 if (country != '' && !jsItinerary[i]['country'].toLowerCase().includes(country.toLowerCase())) {
@@ -478,9 +386,6 @@
         }
         check=parseInt(document.getElementById('counter').innerText);
         counts = 0;
-        console.log(check,'hi');
-        console.log(jsItinerary.length-3,'gi');
-
 
         for(i=check;i<jsItinerary.length;i++){
             document.getElementById(`rating${i}`).innerHTML = tempArray[i];
@@ -491,7 +396,6 @@
         }
 
         if (check >= (jsItinerary.length)-3) {
-            
             $('#nextbtn').attr('disabled', true);
         }
         if (check != 0) {
@@ -510,7 +414,6 @@
             document.getElementById('counter').innerText = parseInt(document.getElementById('counter').innerText) -3
             var str = '<div class="card-columns">';
 
-            console.log(document.getElementById('counter').innerText);
             count = parseInt(document.getElementById('counter').innerText);
             counter = 0
             for (i=count;i<jsItinerary.length;i++) {
@@ -553,9 +456,6 @@
             document.getElementById("cards").innerHTML = str;
         }
 
-        console.log(jsItinerary.length);
-        console.log(tempArray, 'fk');
-
         check=parseInt(document.getElementById('counter').innerText);
         counts = 0
         for(i=check;i<jsItinerary.length;i++){
@@ -575,6 +475,5 @@
     }
 
 </script>
-
 </body>
 </html>

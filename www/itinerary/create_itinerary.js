@@ -1,33 +1,89 @@
 window.onload=function(){
+  window.sessionStorage;
   var newDayBtn = document.getElementById("newDayBtn");
   newDayBtn.addEventListener("click", incrementDay, false); 
   
   list_countries();
-  //console.log("in onload");
 };
-
-// function validateFileType(){
-//   var fileName = document.getElementById("fileName").value;
-//   var idxDot = fileName.lastIndexOf(".") + 1;
-//   var extFile = fileName.substr(idxDot, fileName.length).toLowerCase();
-//   if (extFile=="jpg" || extFile=="jpeg" || extFile=="png"){
-//       //TO DO
-//   }else{
-//       alert("Only jpg/jpeg and png files are allowed!");
-//   }   
-// }
 
 function incrementDay() {
   var newValue = parseInt(document.getElementById("newDayBtn").value, 10);
   newValue++;
   document.getElementById('newDayBtn').value = newValue;
-  //console.log(newValue);
-
   addNewDay(newValue);
 };
 
+function isEmpty(list) {
+  for (node of list) {
+      for(element of node) {
+          var el = element.value;
+          if ((el === "") ||  (typeof el === 'undefined')){
+              return true;   
+          }
+      }
+  }
+  return false;
+};
+
+function validation( tourTitle,tourCategory,season,country,price,imageURL ) {
+  var errors = [];
+
+  var startTime = document.getElementsByClassName("startTime");
+  var endTime = document.getElementsByClassName("endTime");
+
+  var activityTitles = document.getElementsByClassName("activity");
+  var locations = document.getElementsByClassName("location");
+
+    if (tourTitle == ""||tourCategory == "" || season== null|| country== "" || price == "" || imageURL == null || isEmpty([startTime, endTime, activityTitles, locations])) {
+        errors.push("Do not leave empty sections.</br>");
+    } 
+    var thumbnailExists = sessionStorage.getItem("thumbnailExists");
+
+    if (thumbnailExists == 'false') {
+        errors.push("Invalid image. </br>");
+    }
+
+    if ( !isEmpty([startTime,endTime])) {
+      if ( checkTime(startTime, endTime)) {
+        errors.push ("Start time must be before end time.</br>");
+      }
+    }
+    
+    if (errors.length>0) {
+      sessionStorage.setItem("errors", errors);
+      return false; 
+   }
+
+   return true;  
+  
+};
+
+function checkTime(startTimeList, endTimeList) {
+  for (i = 0; i < startTimeList.length; i++) {
+      var startTime = startTimeList[i].value;
+      var endTime = endTimeList[i].value;
+
+      var startTimeArr = startTime.split(":");
+      var endTimeArr = endTime.split(":");
+
+      var startHour = startTimeArr[0];
+      var startMinute = startTimeArr[1];
+     
+      var endHour = endTimeArr[0];
+      var endMinute = endTimeArr[1];
+     
+      if (endHour < startHour) {
+          return true;
+      } else if ( (endHour == startHour) && (endMinute < startMinute) ) {
+          return true;
+      };
+  }
+
+  return false;
+
+}
+
 function addNewDay(day) {
-  //console.log("add new day func ");
   var html = `
   <div class="jumbotron d-flex align-items-center my-2">
       <div class="container-lg py-2 rounded-3" id="Day${day}" > 
@@ -75,19 +131,12 @@ function addNewDay(day) {
   `;
   var node = document.getElementById("content");
   node.insertAdjacentHTML("beforeend", html);
-
-  //activatePlacesSearch();
-
 };
 
 function removeElement(day) {
   var id = `Day${day}`;
-  //console.log("remove ele");
-  //console.log(id);
   var element = document.getElementById(id);
-  //console.log(element);
   element.parentNode.removeChild(element);
-
   fixDayNum(day);
 };
 
@@ -98,40 +147,21 @@ function fixDayNum(day) {
   var value = parseInt(document.getElementById("newDayBtn").value, 10);
   console.log(`${value} is value`);
   if (day_removed == value) {
-      // console.log("-------in if day_removed == value---")
-      // console.log(`${day_removed} is day removed`);
       value = value - 1;
-      //console.log(`${value} is the value after fixing`)
       document.getElementById('newDayBtn').value = value;
   } else {
       var arr_nodes = document.getElementsByClassName("dayNum");
-      // console.log("-------in else------");
-      // console.log(`${day_removed} is day removed`);
       var index = day_removed - 1;
-      //console.log(index);
       var nodes = Array.prototype.slice.call(arr_nodes, index)
-      //console.log(nodes);
-      //console.log("---------------");
 
       for (node of nodes) {
-          //console.log(node);
-
           var regex = /\d+/g;
           var dayNum = node.innerText.match(regex);
 
           dayNum = dayNum[0] - 1;
-
-          //console.log(`This is the org day num : ${org_dayNum} and this is the new day num: ${dayNum}`);
-
           node.innerText = `Day ${dayNum}`;
 
           var org_dayNum = dayNum+1;
-
-          // console.log(`Elements before change: `);
-          // console.log(document.getElementById(`removeDay${org_dayNum}`).onclick);
-          // console.log(document.getElementById(`removeDay${org_dayNum}`).value);
-          // console.log(document.getElementById(`removeDay${org_dayNum}`).id);
-          // console.log(document.getElementById(`contentDay${org_dayNum}`));
 
           document.getElementById(`removeDay${org_dayNum}`).id = `removeDay${dayNum}`;
           document.getElementById(`removeDay${dayNum}`).setAttribute('onclick',`removeElement(${dayNum})`);
@@ -140,32 +170,15 @@ function fixDayNum(day) {
           document.getElementById(`actDay${org_dayNum}`).id = `actDay${dayNum}`;
           document.getElementById(`addActDay${org_dayNum}`).id = `addActDay${dayNum}`;
           document.getElementById(`addActDay${dayNum}`).value = dayNum;
-
-          // console.log(`Elements after change: `);
-          // console.log(document.getElementById(`removeDay${dayNum}`).onclick);
-          // console.log(document.getElementById(`removeDay${dayNum}`).value);
-          // console.log(document.getElementById(`removeDay${dayNum}`).id);
-          // console.log(document.getElementById(`contentDay${dayNum}`).id);
-
-          //console.log(idNodeList);
-
-          //console.log("---------------");
       }
 
       value = value - 1;
-      //console.log(`${value} is the value after fixing`)
       document.getElementById('newDayBtn').value = value;
   }
-  //activatePlacesSearch();
-  
-
 };
 
 function addNewAct(day_num) {
   var activityNumber = incrementActivity();
-
-  console.log( "This is the activity number" + activityNumber);
-
   var html = `
   <div class="container" id="activity${activityNumber}" style="padding:0;">
   <div class="mb-3">
@@ -197,8 +210,6 @@ function addNewAct(day_num) {
   `;
   var node = document.getElementById(`actDay${day_num}`);
   node.insertAdjacentHTML("beforeend", html);
-  //activatePlacesSearch();
-
 }
 
 var incrementActivity = (function(n) {
@@ -214,36 +225,64 @@ function removeActivity(activityNumber) {
 
 }
 
-function general_data() {
+async function imageExists(imageSrc) {
+
+  return new Promise(function(resolve,reject){
+    var img = new Image();
+    img.src = imageSrc;
+    img.onload = resolve;
+    img.onerror = reject;
+      })
+}
+
+//update func
+async function general_data() {
+  document.getElementById("error-modal-body").innerHTML = "loading...";
+  document.getElementById("errorsFooter").innerHTML = `` ;
+  document.getElementById("closeBtn").innerHTML =`<button type="button btn" class="close" data-dismiss="modal" aria-label="Close">
+  <span aria-hidden="true">&times;</span>
+  </button>`;
+
+  console.log("--------------");
+  if( document.getElementById("fileName").value != null ) {
+
+    await imageExists(document.getElementById("fileName").value).then(function(){
+    //It exists
+    sessionStorage.setItem("thumbnailExists", "true");
+    },function(){
+    //It does not exist
+    sessionStorage.setItem("thumbnailExists", "false");
+    })  
+
+  }
+
   var tourTitle = document.getElementById("title").value;
-  var tourCategory = document.querySelector('input[name="category"]:checked').value;
-  var season = document.querySelector('input[name="season"]:checked').value;
   var country = document.getElementById("country-select").value;
   var price = document.getElementById("price").value;
   var imageURL = document.getElementById("fileName").value;
 
-  console.log("------------");
-    console.log(itineraryOwner);
-    console.log(tourTitle);
-    console.log(tourCategory);
-    console.log(country);
-    console.log(price);
-    console.log(imageURL);
-    console.log(season);
-    //console.log(generaldetails);
-    console.log("------------");
+  var isValidated = validation(tourTitle,document.querySelector('input[name="category"]:checked'),document.querySelector('input[name="season"]:checked'),country,price,imageURL);
 
-  //call insertion function here
-  sendItinerary(itineraryOwner,tourTitle,tourCategory,country,price,imageURL,season);
-
-  // getLatestId();
+  if ( !isValidated) {
+    // not validated
+	var errors = sessionStorage.getItem("errors");
+    var newErrors = errors.replace(/,/g, '');
+    var error_msg = "";
+    for (error of newErrors) {
+      error_msg += error;
+    }
+    document.getElementById("error-modal-body").innerHTML = error_msg;
+  } else {
+    var tourCategory = document.querySelector('input[name="category"]:checked').value;
+    var season = document.querySelector('input[name="season"]:checked').value;
+    sendItinerary(itineraryOwner,tourTitle,tourCategory,country,price,imageURL,season);
+  }
 }
 
+
 async function sendItinerary(itineraryOwner,tourTitle,tourCategory,country,price,imageURL,season){
-  var itineraryid = 0;
   let HasApproved = false;
   var date = new Date();
-  var datetimecreated = date.getDate();
 
   var data = { 
     "Itineraryowner": itineraryOwner, 
@@ -255,29 +294,6 @@ async function sendItinerary(itineraryOwner,tourTitle,tourCategory,country,price
     "season": season,
     "HasApproved": HasApproved
   };
-
-  // // Creating a XHR object
-  // let xhr = new XMLHttpRequest();
-  // let url = "http://localhost:5010/createitinerary";
-  // // open a connection
-  // //xhr.open('GET', `${url}/${itineraryid}/${itineraryOwner}/${tourTitle}/${tourCategory}/${country}/${price}/${imageURL}/${season}/${datetimecreated}/${HasApproved}`, false);
-  // xhr.open('POST', url, false);
-  // xhr.setRequestHeader("Content-Type", "application/json");
-  // // Set the request header i.e. which type of content you are sending
-  // //xhr.setRequestHeader("Content-type", "application/json");
-  // // Create a state change callback
-  // xhr.onreadystatechange = function () {
-  //     if (xhr.readyState === 4 && xhr.status === 200) {
-  //         // Print received data from server
-  //         result.innerHTML = this.responseText;
-  //     }
-  // };
-  // // Converting JSON data to string
-  // //var data = JSON.stringify({ "itineraryid": itineraryid,"Itineraryowner": itineraryOwner, "tourtitle": tourTitle, "tourcategory": tourCategory, "country": country, "price": price, "thumbnail": imageURL, "season": season,"datetimecreated":datetimecreated, "HasApproved":HasApproved });
-  // // Sending data with the request
-  // xhr.send(JSON.stringify(data));
-  console.log("test");
-  // $(async() => {           
     // Change serviceURL to your own
     var serviceURL = "http://localhost:8000/api/v1/createitinerary";
     
@@ -299,27 +315,6 @@ async function sendItinerary(itineraryOwner,tourTitle,tourCategory,country,price
         // service offline, etc
         console.log("Cannot connect!");
     } // error
-  
-  // });
-  // await fetch("http://localhost:5010/createitinerary",
-  //   {
-  //       method: "POST",
-  //       headers: {
-  //           "Content-type": "application/json"
-  //       },
-  //       body: JSON.stringify(data)
-  //   })
-  //   .then (response => response.json())
-  //   .then(data => {
-  //       console.log(data);
-        
-  //       } // switch
-  //   )
-
-
-  //   .catch(error => {
-  //       console.log("Problem in adding to cart. " + error);
-  //   })
 }
 
 function getLatestId() {
@@ -336,16 +331,10 @@ function getLatestId() {
   xmlhttp.open("GET", url, false);
   xmlhttp.setRequestHeader("Content-type", "application/json");
   xmlhttp.send();
-
-  //details_data();
-  
 }
-
 
 function details_data(itinerary_id){
   var total_num_days = document.querySelectorAll('[id^="Day"]');
-  console.log(total_num_days);
-  console.log(total_num_days.length);
 
   var currentDay = 1;
 
@@ -361,8 +350,6 @@ function details_data(itinerary_id){
 }
 
 function InsertEachDay(day, currentDay,itinerary_id) {
-    console.log("------------");
-    console.log(currentDay);
     var activities = day.querySelectorAll(".activity");
     var startTimes = day.querySelectorAll(".startTime");
     var endTimes = day.querySelectorAll(".endTime");
@@ -381,13 +368,6 @@ function InsertEachDay(day, currentDay,itinerary_id) {
         var starttime = starttime.toString();
         var endtime = endtime.toString();
 
-        console.log(location);
-        console.log(activity);
-        console.log(activitynumber);
-        console.log(description);
-        console.log(starttime);
-        console.log(endtime);
-        console.log("------------");
         sendItineraryDetails(itinerary_id, currentDay,location,activity,activitynumber,description,starttime,endtime );
     };
 }
