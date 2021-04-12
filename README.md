@@ -4,6 +4,10 @@ Odyssey’s Itineraries is created as a platform to deliver the ease of travelli
 Planning for a trip takes a significant amount from as little as a few weeks to a longer period of a year or so. Part of the planning process involves sourcing for places to go to according to the goal of your trip. We aim to shorten this process for prospective travellers while allowing people to reuse their past itineraries.
 
 <hr>
+#### Installation Guide #####
+
+<a href="https://docs.google.com/document/d/1B8UpwwpCEISDQ5beiwhM2Buu-DJ4RwUOc1SsltrgILw/edit?usp=sharing">Click Here</a> for installation guide
+<hr>
 
 ##### Itinerary Microservices Port Configuration #####
 Itinerary Microservice Port 5010
