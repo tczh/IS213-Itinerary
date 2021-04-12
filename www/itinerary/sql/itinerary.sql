@@ -59,7 +59,7 @@ insert into ItineraryDetails(itineraryid, daynumber, location, activitynumber, t
 values (3, 2, "Singapore", 1, "12:00", "14:00", "Buffet", "Can't get enough food? Sign yourself up with the amazing buffet available");
 
 insert into Itinerary(ItineraryCreator, TourTitle, TourCategory, Country, Season, Price, Thumbnail, DateTimeCreated, HasApproved)
-values ("elgin.rspx@gmail.com", "KL Exploration", "Family", "Malaysia", "Summer", 44, "http://static.asiawebdirect.com/m/kl/portals/kuala-lumpur-ws/homepage/pagePropertiesOgImage/kuala-lumpur.jpg.jpg", "2021-03-13 12:22:11", true);
+values ("elgin@gmail.com", "KL Exploration", "Family", "Malaysia", "Summer", 44, "http://static.asiawebdirect.com/m/kl/portals/kuala-lumpur-ws/homepage/pagePropertiesOgImage/kuala-lumpur.jpg.jpg", "2021-03-13 12:22:11", true);
 insert into ItineraryDetails(itineraryid, daynumber, location, activitynumber, timestart, timeend, activity, description)
 values (4, 1, "Kuala Lumpur", 1, "12:00", "13:30", "Brunch", "Want to sleep late yet not missing any good food? Enjoy having brunch at Birch!");
 insert into ItineraryDetails(itineraryid, daynumber, location, activitynumber, timestart, timeend, activity, description)
@@ -83,7 +83,7 @@ insert into ItineraryDetails(itineraryid, daynumber, location, activitynumber, t
 values (5, 3, "Busan", 1, "09:00", "10:00", "Monkas", "Take a train to busan(Becareful of zombies!)");
 
 insert into Itinerary(ItineraryCreator, TourTitle, TourCategory, Country, Season, Price, Thumbnail, DateTimeCreated, HasApproved)
-values ("elgin.rspx@gmail.com", "2D1N Myanmar Adventure!", "Adventure", "Myanmar", "Winter", 28, "https://static.officeholidays.com/images/1280x853c/myanmar_bagan_01.jpg", "2021-04-08 00:00:01", true);
+values ("elgin@gmail.com", "2D1N Myanmar Adventure!", "Adventure", "Myanmar", "Winter", 28, "https://static.officeholidays.com/images/1280x853c/myanmar_bagan_01.jpg", "2021-04-08 00:00:01", true);
 insert into ItineraryDetails(itineraryid, daynumber, location, activitynumber, timestart, timeend, activity, description)
 values (6, 1, "Yangon", 1, "10:00", "13:00", "Seeking Pagodas", "Spend your morning visting pagoda. Myanmar is a country with a rich history!");
 insert into ItineraryDetails(itineraryid, daynumber, location, activitynumber, timestart, timeend, activity, description)
@@ -117,7 +117,7 @@ insert into ItineraryDetails(itineraryid, daynumber, location, activitynumber, t
 values (7, 3, "Bremen", 3, "20:00", "22:00", "more slack", "Intensive Relaxing");
 
 insert into Itinerary(ItineraryCreator, TourTitle, TourCategory, Country, Season, Price, Thumbnail, DateTimeCreated, HasApproved)
-values ("elvis@gmail.com", "You Will Be Amazed", "Luxury", "Egypt", "Spring", 999, "https://www.worldtravelguide.net/wp-content/uploads/2017/04/Think-Egypt-Giza-Sphynx-178375366-pius99-copy.jpg", "2021-03-22 00:00:01", false);
+values ("elvis.leong.2019@sis.smu.edu.sg", "You Will Be Amazed", "Luxury", "Egypt", "Spring", 999, "https://www.worldtravelguide.net/wp-content/uploads/2017/04/Think-Egypt-Giza-Sphynx-178375366-pius99-copy.jpg", "2021-03-22 00:00:01", false);
 insert into ItineraryDetails(itineraryid, daynumber, location, activitynumber, timestart, timeend, activity, description)
 values (8, 1, "Cairo", 1, "08:00", "12:00", "sun tanning", "Chillax");
 insert into ItineraryDetails(itineraryid, daynumber, location, activitynumber, timestart, timeend, activity, description)
