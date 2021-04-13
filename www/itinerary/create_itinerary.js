@@ -94,7 +94,8 @@ function addNewDay(day) {
               </div>
 
               <div class="form-content" >
-                <div id="actDay${day}">
+                <div class="container" id="actDay${day}">
+                <div class="container" style="padding:0;">
                 <div class="mb-3">
                     <label for="activity" class="form-label">Activity Title</label>
                     <input type="text" class="form-control activity"  >
@@ -120,6 +121,7 @@ function addNewDay(day) {
                   <input type="textarea" class="form-control description" >
                 </div>
 
+		</div>
                 </div>
                 <button type="button" class="btn btnSubmit" id="addActDay${day}" value="${day}" onclick="addNewAct(this.value)">Add a new activity</button>
                 
