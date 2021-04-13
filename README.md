@@ -80,7 +80,7 @@ Create the connection
 * Name: default
 * Kong admin url: http://kong:8001
 
-Create Services and Routes for all the microservices (see Appendix for more details)
+Create Services and Routes for all the microservices (Refer to Installation Guide with Images for a graphical tutorial)
 * user
 * review
 * purchase_itinerary
