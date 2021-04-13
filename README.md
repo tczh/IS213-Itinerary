@@ -43,8 +43,6 @@ ZIP: <Any number>
 
 # Installation Guide
 
-<hr>
-
 We have provided a walkthrough video as well, therefore you could refer to that video instead of having to go through these installation steps.
 Link to video walkthrough: https://youtu.be/ifqyyIt9cKk
 
