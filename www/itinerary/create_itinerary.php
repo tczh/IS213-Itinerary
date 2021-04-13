@@ -146,7 +146,7 @@
                 <!-- Start of container for activities -->
                 <div class="container" id="actDay1">
                 <!-- start of container of first item in day 1 -->
-                <div class="container">
+                <div class="container" style="padding:0;">
                 <div class="mb-3">
                     <label for="activity" class="form-label">Activity Title</label>
                     <input type="text" class="form-control activity" id="activity" >
