@@ -23,3 +23,8 @@ insert into payment(emailAddr, isPaid, dateBought, totalPrice)
 values ("elgin.rspx@gmail.com", "True", "2021-03-22", 50);
 insert into paymentitems(paymentID, itineraryID)
 values (1, 5);
+
+insert into payment(emailAddr, isPaid, dateBought, totalPrice)
+values ("guest@gmail.com", "True", "2021-03-22", 52);
+insert into paymentitems(paymentID, itineraryID)
+values (2, 3);

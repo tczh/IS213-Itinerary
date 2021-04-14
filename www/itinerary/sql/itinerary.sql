@@ -31,7 +31,7 @@ create table ItineraryDetails(
 );
 
 insert into Itinerary(ItineraryCreator, TourTitle, TourCategory, Country, Season, Price, Thumbnail, DateTimeCreated, HasApproved)
-values ("elgin@gmail.com", "Frankfurt is Frankly Fun", "family", "Germany", "fall", 8, "https://images.unsplash.com/photo-1467269204594-9661b134dd2b?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=80", "2021-03-22 00:00:01", true);
+values ("guest@gmail.com", "Frankfurt is Frankly Fun", "Family", "Germany", "fall", 8, "https://images.unsplash.com/photo-1467269204594-9661b134dd2b?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=80", "2021-03-22 00:00:01", true);
 insert into ItineraryDetails(itineraryid, daynumber, location, activitynumber, timestart, timeend, activity, description)
 values (1, 1, "Best Worscht in Town Restaurant", 1, "11:30", "12:30", "Food", "Experience the delights of Frankfurt by eating sausage franks!");
 insert into ItineraryDetails(itineraryid, daynumber, location, activitynumber, timestart, timeend, activity, description)
@@ -40,7 +40,7 @@ insert into ItineraryDetails(itineraryid, daynumber, location, activitynumber, t
 values (1, 2, "River Main", 1, "09:00", "09:50", "50-min Sightseeing Cruise", "For travelers that want to sit back, relax, and enjoy a calming sightseeing excursion in Frankfurt shouldn't miss this cruise on the River Main. Choose either the upstream or downstream route before you head out for your cruise on the river. Highlights include the views of notable Frankfurt sights—from the Frankfurt Cathedral to Westhafen Tower—complete with bilingual commentary, and lovely skyline vistas along the way.");
 
 insert into Itinerary(ItineraryCreator, TourTitle, TourCategory, Country, Season, Price, Thumbnail, DateTimeCreated, HasApproved)
-values ("elgin@gmail.com", "Great Ocean Adventure!", "adventure", "Australia", "spring", 15, "https://images.unsplash.com/photo-1581255078657-13b74a0690c6?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1053&q=80", "2021-03-23 12:30:01", true);
+values ("guest@gmail.com", "Great Ocean Adventure!", "Adventure", "Australia", "spring", 15, "https://images.unsplash.com/photo-1581255078657-13b74a0690c6?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1053&q=80", "2021-03-23 12:30:01", true);
 insert into ItineraryDetails(itineraryid, daynumber, location, activitynumber, timestart, timeend, activity, description)
 values (2, 1, "On the Road", 1, "12:00", "18:00", "Road Trip", "Take a scenic drive down the Great Ocean Road!");
 insert into ItineraryDetails(itineraryid, daynumber, location, activitynumber, timestart, timeend, activity, description)
