@@ -102,3 +102,20 @@ Odyssey is now functional and accessible at http://localhost/itinerary/
 <a href="https://docs.google.com/document/d/1B8UpwwpCEISDQ5beiwhM2Buu-DJ4RwUOc1SsltrgILw/edit?usp=sharing">Click Here</a> for installation guide
 
 <hr>
+
+## Credentials
+2 Accounts, Admin and Guest, have been created for purposes of demonstrating the functions of Odyssey's Itineraries. Their credentials can be found below.
+
+Login using Admin:
+* Email: admin@gmail.com
+* Password: admin
+
+To view itineraries available for approval.
+
+Login using Guest:
+* Email: guest@gmail.com
+* Password: guest
+
+Navigate to Account Tab to view purchased and created itineraries
+
+Alternatively, you could create your own guest account (Google Login / Account Creation) or simply view the video walkthrough linked above, at the start of the Installation guide.
