@@ -62,12 +62,12 @@ def processDisplayItinerary(itineraryid):
 
     #openweatherapi
     print('\n-----Invoking openweather & gnews api-----')
-    openweatherapikey = '6afc1289d7b063832a4e808bfea98ad4'
+    openweatherapikey = ''
     future_four = session.get("http://api.openweathermap.org/data/2.5/weather?q=" + country + "&units=metric&appid=" + openweatherapikey)
     
 
     #newsapi
-    newsapikey = 'a577937e347ce3ca315c6f80db46276a'
+    newsapikey = ''
     future_five = session.get("https://gnews.io/api/v4/search?q=" + country + " travel&lang=en&token=" + newsapikey)
     response_four = future_four.result().json()  
     print('weather_info:', response_four)
